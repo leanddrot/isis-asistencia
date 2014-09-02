@@ -1,8 +1,11 @@
 package dom.asistencia;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.Date;
+
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.Bookmarkable;
@@ -53,7 +56,7 @@ public class AsistenciaRepositorio {
 	public Asistencia create(final @Named("Descripcion") String descripcion) {
 		final Asistencia obj = container.newTransientInstance(Asistencia.class);
 		
-		SortedSet<AsistenciaDia> asistenciasDia = new TreeSet<AsistenciaDia>();
+		List<AsistenciaDia> asistenciasDia = new ArrayList<AsistenciaDia>();
 		obj.setDescripcion(descripcion);
 		obj.setAsistenciasDia(asistenciasDia);
 		
@@ -77,6 +80,7 @@ public class AsistenciaRepositorio {
 
 	// endregion
 
+		
 
 	// region > injected services
 	// //////////////////////////////////////

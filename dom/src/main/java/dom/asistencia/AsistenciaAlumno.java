@@ -52,5 +52,8 @@ public class AsistenciaAlumno {
 	}
 	// }}
 
+	public String title(){
+		return alumno.title();
+	}
 
 }
