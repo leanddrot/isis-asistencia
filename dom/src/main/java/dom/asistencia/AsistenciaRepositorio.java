@@ -1,12 +1,8 @@
 package dom.asistencia;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.Bookmarkable;
@@ -25,7 +21,7 @@ public class AsistenciaRepositorio {
 	// //////////////////////////////////////
 
 	public String getId() {
-		return "alumno";
+		return "asistencia";
 	}
 
 	public String iconName() {
@@ -67,7 +63,7 @@ public class AsistenciaRepositorio {
 
 	// endregion
 
-	// region > remove User (action)
+	// region > remove (action)
 	// //////////////////////////////////////
 
 	@ActionSemantics(Of.NON_IDEMPOTENT)
