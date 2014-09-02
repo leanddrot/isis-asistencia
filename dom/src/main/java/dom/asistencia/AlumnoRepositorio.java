@@ -15,7 +15,7 @@ import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 
 
-@DomainService(menuOrder = "25", repositoryFor = Alumno.class)
+@DomainService(menuOrder = "40", repositoryFor = Alumno.class)
 @Named("Alumnos")
 public class AlumnoRepositorio {
 	
