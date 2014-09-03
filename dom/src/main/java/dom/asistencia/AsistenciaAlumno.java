@@ -2,14 +2,23 @@ package dom.asistencia;
 
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
+
+import org.apache.isis.applib.annotation.Bounded;
 import org.apache.isis.applib.annotation.MemberOrder;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Queries( {
+@javax.jdo.annotations.Query(
+name="asistenciaAlumno_contarAusentes", language="JDOQL",
+value="SELECT FROM dom.todo.ToDoItem WHERE ownedBy == :ownedBy && done == false")
+})
 
+
+@Bounded
 public class AsistenciaAlumno {
-	
+
 	// {{ Alumno (property)
 	private Alumno alumno;
 
@@ -22,6 +31,7 @@ public class AsistenciaAlumno {
 	public void setAlumno(final Alumno alumno) {
 		this.alumno = alumno;
 	}
+
 	// }}
 
 	// {{ EstaPresente (property)
@@ -36,6 +46,7 @@ public class AsistenciaAlumno {
 	public void setEstaPresente(final boolean estaPresente) {
 		this.estaPresente = estaPresente;
 	}
+
 	// }}
 
 	// {{ LlegoTarde (property)
@@ -50,10 +61,11 @@ public class AsistenciaAlumno {
 	public void setLlegoTarde(final boolean llegoTarde) {
 		this.llegoTarde = llegoTarde;
 	}
+
 	// }}
 
-	public String title(){
-		return alumno.title();
+	public String title() {
+		return getAlumno().getNombre() + " " + getAlumno().getApellido();
 	}
 
 }

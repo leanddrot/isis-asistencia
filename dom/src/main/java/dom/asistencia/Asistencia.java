@@ -8,14 +8,17 @@ import java.util.TreeSet;
 
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.Join;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.Render;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.annotation.Where;
+import org.apache.isis.applib.annotation.Render.Type;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
@@ -39,10 +42,13 @@ public class Asistencia {
 	// }}
 
 	// {{ AsistenciasDia (Collection)
-
-	@Element(column = "AsistenciasDia", dependent = "True")
+	
+	@Join
+	@Element(dependent = "True")
+	
 	private List<AsistenciaDia> asistenciasDia = new ArrayList<AsistenciaDia>();
-
+	
+	@Render(Type.EAGERLY)
 	@MemberOrder(sequence = "1")
 	public List<AsistenciaDia> getAsistenciasDia() {
 		return asistenciasDia;
@@ -73,7 +79,7 @@ public class Asistencia {
 		}
 		
 		asistenciaDia.setFecha(fecha);
-		asistenciaDia.setAlumnos(asistenciaAlumnoList);
+		asistenciaDia.setAsistenciaAlumnoList(asistenciaAlumnoList);
 		this.asistenciasDia.add(asistenciaDia);
 		return asistenciaDia;
 	}
