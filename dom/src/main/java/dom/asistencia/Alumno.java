@@ -60,6 +60,18 @@ public class Alumno {
 		return this.getNombre() + " " + this.getApellido();
 	}
 
-	
+	// {{ Curso (property)
+		private Curso curso;
+
+		@MemberOrder(sequence = "4")
+		@javax.jdo.annotations.Column(allowsNull = "false")
+		public Curso getCurso() {
+			return curso;
+		}
+
+		public void setCurso(final Curso curso) {
+			this.curso = curso;
+		}
+		// }}
 	
 }
