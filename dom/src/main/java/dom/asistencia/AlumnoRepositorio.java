@@ -13,79 +13,93 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
-
+import org.apache.isis.applib.query.QueryDefault;
 
 @DomainService(menuOrder = "40", repositoryFor = Alumno.class)
 @Named("Alumnos")
 public class AlumnoRepositorio {
-	
+
 	// region > identification in the UI
-		// //////////////////////////////////////
+	// //////////////////////////////////////
 
-		public String getId() {
-			return "alumno";
-		}
+	public String getId() {
+		return "alumno";
+	}
 
-		public String iconName() {
-			return "SimpleObject";
-		}
+	public String iconName() {
+		return "SimpleObject";
+	}
 
-		// endregion
+	// endregion
 
-		// region > listAll (action)
-		// //////////////////////////////////////
+	// region > listAll (action)
+	// //////////////////////////////////////
 
-		@Bookmarkable
-		@ActionSemantics(Of.SAFE)
-		@MemberOrder(sequence = "1")
-		@Named("Listar Alumnos")
-		public List<Alumno> listAll() {
-			return container.allInstances(Alumno.class);
-		}
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
+	@MemberOrder(sequence = "1")
+	@Named("Listar Alumnos")
+	public List<Alumno> listAll() {
+		return container.allInstances(Alumno.class);
+	}
 
-		// endregion
+	// endregion
 
-		// region > create (action)
-		// //////////////////////////////////////
+	// region > create (action)
+	// //////////////////////////////////////
 
-		@MemberOrder(sequence = "2")
-		@Named("Crear Alumno")
-		@Hidden(where = Where.OBJECT_FORMS)
-		public Alumno create(final @Named("Nombre") String nombre,
-				final @Named("Apellido") String apellido,
-				final @Named("Dni") String dni) {
-			final Alumno obj = container.newTransientInstance(Alumno.class);
+	@MemberOrder(sequence = "2")
+	@Named("Crear Alumno")
+	@Hidden(where = Where.OBJECT_FORMS)
+	public Alumno create(final @Named("Nombre") String nombre,
+			final @Named("Apellido") String apellido,
+			final @Named("Dni") String dni) {
+		final Alumno obj = container.newTransientInstance(Alumno.class);
 
-			obj.setNombre(nombre);
-			obj.setApellido(apellido);
-			obj.setDni(dni);
-			container.persistIfNotAlready(obj);
-			return obj;
-		}
+		obj.setNombre(nombre);
+		obj.setApellido(apellido);
+		obj.setDni(dni);
+		container.persistIfNotAlready(obj);
+		return obj;
+	}
 
-		// endregion
+	// endregion
 
-		// region > remove User (action)
-		// //////////////////////////////////////
+	// region > remove User (action)
+	// //////////////////////////////////////
 
-		@ActionSemantics(Of.NON_IDEMPOTENT)
-		@MemberOrder(sequence = "4")
-		@Named("Borrar Alumno")
-		public String borrarAlumno(@Named("User") Alumno alumno) {
-			String nombre = alumno.title();
-			container.remove(alumno);
-			return "El alumno " + nombre + " ha sido eliminado";
-		}
+	@ActionSemantics(Of.NON_IDEMPOTENT)
+	@MemberOrder(sequence = "4")
+	@Named("Borrar Alumno")
+	public String borrarAlumno(@Named("User") Alumno alumno) {
+		String nombre = alumno.title();
+		container.remove(alumno);
+		return "El alumno " + nombre + " ha sido eliminado";
+	}
 
-		// endregion
+	// endregion
 
+	// region > listAll (action)
+	// //////////////////////////////////////
 
-		// region > injected services
-		// //////////////////////////////////////
-
-		@javax.inject.Inject
-		DomainObjectContainer container;
-
-		// endregion
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
+	@MemberOrder(sequence = "1.5")
+	@Named("Listar Alumnos Sin Curso")
+	public List<Alumno> listSinCurso() {
+		return container.allMatches(new QueryDefault<Alumno>(Alumno.class,
+				"alumnosSinCurso"));
 		
+	}
+
+	// endregion
+
+	// region > injected services
+	// //////////////////////////////////////
+
+	@javax.inject.Inject
+	DomainObjectContainer container;
+
+	// endregion
+
 }

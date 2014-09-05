@@ -2,11 +2,13 @@ package dom.asistencia;
 
 import java.util.List;
 import java.util.ArrayList;
+
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
+
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.Bounded;
@@ -14,8 +16,8 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Render;
 import org.apache.isis.applib.annotation.Render.Type;
-
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
+import org.apache.isis.applib.query.QueryDefault;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
@@ -90,10 +92,9 @@ public class Curso {
 	}
 
 	public List<Alumno> choices0AgregarAlumno (){
-		List<Alumno> alumnosLista = container.allInstances(Alumno.class);
-		return alumnosLista;
-	}
-	
+		return container.allMatches(new QueryDefault<Alumno>(Alumno.class,
+				"alumnosSinCurso"));
+		}
 		
 	// endregion
 

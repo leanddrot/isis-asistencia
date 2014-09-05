@@ -10,6 +10,14 @@ import org.apache.isis.applib.annotation.ObjectType;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Queries({ 
+	@javax.jdo.annotations.Query(name = "alumnosSinCurso", 
+			language = "JDOQL", 
+			value = "SELECT FROM dom.asistencia.Alumno"
+					+" WHERE this.curso == null"
+					//+" && dom.asistencia.Alumno.curso.anio == null"
+					) 
+	})
 @ObjectType("alumno")
 @Bounded
 public class Alumno {
@@ -26,6 +34,7 @@ public class Alumno {
 	public void setNombre(final String nombre) {
 		this.nombre = nombre;
 	}
+
 	// }}
 
 	// {{ Apellido (property)
@@ -40,6 +49,7 @@ public class Alumno {
 	public void setApellido(final String apellido) {
 		this.apellido = apellido;
 	}
+
 	// }}
 
 	// {{ Dni (property)
@@ -54,24 +64,25 @@ public class Alumno {
 	public void setDni(final String dni) {
 		this.dni = dni;
 	}
+
 	// }}
 
-	public String title(){
+	public String title() {
 		return this.getNombre() + " " + this.getApellido();
 	}
 
 	// {{ Curso (property)
-		private Curso curso;
+	private Curso curso;
 
-		@MemberOrder(sequence = "4")
-		@javax.jdo.annotations.Column(allowsNull = "false")
-		public Curso getCurso() {
-			return curso;
-		}
+	@MemberOrder(sequence = "4")
+	@javax.jdo.annotations.Column(allowsNull = "true")
+	public Curso getCurso() {
+		return curso;
+	}
 
-		public void setCurso(final Curso curso) {
-			this.curso = curso;
-		}
-		// }}
-	
+	public void setCurso(final Curso curso) {
+		this.curso = curso;
+	}
+	// }}
+
 }
