@@ -69,6 +69,15 @@ public class AsistenciaDia {
 				
 		return this; 
 	}
+	
+	public String validatePrueba(	final AsistenciaAlumno asistenciaAlumno,
+									final boolean presente, 
+									final boolean tarde) {
+		if (presente == false && tarde == true){
+			return "La asistencia no puede estar marcada como 'tarde' si no está 'presente'";
+		}
+	return null;
+	}
 	// }}
 
 	public List<AsistenciaAlumno> choices0Prueba(){
