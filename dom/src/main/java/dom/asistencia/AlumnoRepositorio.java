@@ -79,7 +79,7 @@ public class AlumnoRepositorio {
 
 	// endregion
 
-	// region > listAll (action)
+	// region > list Alumnos sin curso (action)
 	// //////////////////////////////////////
 
 	@Bookmarkable
@@ -90,6 +90,23 @@ public class AlumnoRepositorio {
 		return container.allMatches(new QueryDefault<Alumno>(Alumno.class,
 				"alumnosSinCurso"));
 		
+	}
+
+	// endregion
+
+	// region > list Alumnos de un curso (action)
+	// //////////////////////////////////////
+
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
+	@MemberOrder(sequence = "1.5")
+	@Named("Listar Alumnos de un Curso")
+	public List<Alumno> listAlumnosDeUnCurso(final @Named("Curso") Curso curso) {
+		int anio = curso.getAnio();
+		String division = curso.getDivision();
+		return container.allMatches(new QueryDefault<Alumno>(Alumno.class,
+				"alumnosDeUnCurso", "anio", anio, "division", division));
+
 	}
 
 	// endregion

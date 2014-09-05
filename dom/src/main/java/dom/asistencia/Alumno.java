@@ -14,9 +14,12 @@ import org.apache.isis.applib.annotation.ObjectType;
 	@javax.jdo.annotations.Query(name = "alumnosSinCurso", 
 			language = "JDOQL", 
 			value = "SELECT FROM dom.asistencia.Alumno"
-					+" WHERE this.curso == null"
-					//+" && dom.asistencia.Alumno.curso.anio == null"
-					) 
+					+" WHERE this.curso == null"),
+	@javax.jdo.annotations.Query(name = "alumnosDeUnCurso", 
+			language = "JDOQL", 
+			value = "SELECT FROM dom.asistencia.Alumno"
+					+" WHERE this.curso.anio == :anio"
+					+" && this.curso.division == :division") 
 	})
 @ObjectType("alumno")
 @Bounded
