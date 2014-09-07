@@ -17,15 +17,18 @@ import javax.jdo.annotations.Join;
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.VersionStrategy;
 
+import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Render;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.annotation.Render.Type;
+import org.apache.isis.applib.query.QueryDefault;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+
 public class AsistenciaDia {
 
 	// {{ Fecha (property)
@@ -69,10 +72,9 @@ public class AsistenciaDia {
 
 		asistenciaAlumno.setEstaPresente(presente);
 		asistenciaAlumno.setLlegoTarde(tarde);
-	
+
 		return this;
 	}
-	
 
 	public String validatePrueba(final AsistenciaAlumno asistenciaAlumno,
 			final boolean presente, final boolean tarde) {
@@ -82,10 +84,10 @@ public class AsistenciaDia {
 		return null;
 	}
 
-	public AsistenciaAlumno default0Prueba (){
+	public AsistenciaAlumno default0Prueba() {
 		return choices0Prueba().get(0);
 	}
-	
+
 	// }}
 
 	public List<AsistenciaAlumno> choices0Prueba() {
@@ -102,5 +104,29 @@ public class AsistenciaDia {
 		return s;
 	}
 
-	
+	// {{ prueba (action)
+	@MemberOrder(sequence = "6")
+	public List<AsistenciaAlumno> tomarAsistenciaCurso(
+		final @Named("Curso") Curso curso) {
+		
+		int anio= curso.getAnio();
+		String division = curso.getDivision();
+		Date fecha = this.getFecha();
+		
+		return container.allMatches(new QueryDefault<AsistenciaAlumno>(
+				AsistenciaAlumno.class, "asistenciaAlumno_asistenciaDiaCurso", 
+				"anio", anio, 
+				"division", division,
+				"fecha", fecha
+				));
+	}
+
+	// region > injected services
+	// //////////////////////////////////////
+
+	@javax.inject.Inject
+	DomainObjectContainer container;
+
+	// endregion
+
 }

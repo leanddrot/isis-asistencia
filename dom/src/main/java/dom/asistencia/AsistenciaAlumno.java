@@ -1,5 +1,8 @@
 package dom.asistencia;
 
+import java.util.Date;
+
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.VersionStrategy;
 
@@ -12,17 +15,38 @@ import org.apache.isis.applib.annotation.MemberOrder;
 @javax.jdo.annotations.Queries( {
 @javax.jdo.annotations.Query(
 name="asistenciaAlumno_contarAusentes", language="JDOQL",
-value="SELECT FROM dom.todo.ToDoItem WHERE ownedBy == :ownedBy && done == false")
-})
+value="SELECT FROM "),
 
+@javax.jdo.annotations.Query(name = "asistenciaAlumno_asistenciaDiaCurso", language = "JDOQL", 
+value = "SELECT FROM dom.asistencia.AsistenciaAlumno"
+		+ " WHERE this.alumno.curso.anio == :anio "
+		+ "&& this.alumno.curso.division == :division"
+		+ "&& this.fecha == :fecha") 
+})
 
 @Bounded
 public class AsistenciaAlumno {
 
+	
+	// {{ Fecha (property)
+	private Date date;
+
+	@MemberOrder(sequence = "1")
+	@Column(allowsNull = "false")
+	public Date getFecha() {
+		return date;
+	}
+
+	public void setFecha(final Date date) {
+		this.date = date;
+	}
+	// }}
+
+	
 	// {{ Alumno (property)
 	private Alumno alumno;
 
-	@MemberOrder(sequence = "1")
+	@MemberOrder(sequence = "1.5")
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	public Alumno getAlumno() {
 		return alumno;

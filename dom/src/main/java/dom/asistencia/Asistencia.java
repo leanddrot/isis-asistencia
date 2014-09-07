@@ -75,6 +75,7 @@ public class Asistencia {
 		for (Alumno unAlumno : todosLosAlumnos){
 			AsistenciaAlumno asistenciaAlumno = new AsistenciaAlumno();
 			asistenciaAlumno.setAlumno(unAlumno);
+			asistenciaAlumno.setFecha(fecha);
 			asistenciaAlumnoList.add(asistenciaAlumno);
 		}
 		
