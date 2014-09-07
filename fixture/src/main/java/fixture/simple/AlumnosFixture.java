@@ -45,6 +45,11 @@ public class AlumnosFixture extends FixtureScript {
         create("Luisa", "Pasteur","32648755",executionContext);
         create("Marcela", "Midori","19678648",executionContext);
         create("Ana", "Frank","64918237",executionContext);
+        create("Roberto", "Gomez","32649754",executionContext);
+        create("Florinda", "Mesa","29763488",executionContext);
+        create("Martin", "Pasculli","58545125",executionContext);
+        create("Federica", "Ramirez","69321548",executionContext);
+        create("Emilio", "Estevez","26498731",executionContext);
     }
 
     // //////////////////////////////////////
