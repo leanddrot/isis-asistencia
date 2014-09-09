@@ -12,6 +12,7 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
+import org.apache.isis.applib.query.QueryDefault;
 
 @DomainService(menuOrder = "45", repositoryFor = Curso.class)
 @Named("Cursos")
@@ -39,7 +40,8 @@ public class CursoRepositorio {
 		@MemberOrder(sequence = "1")
 		@Named("Listar Cursos")
 		public List<Curso> listAll() {
-			return container.allInstances(Curso.class);
+			return container.allMatches(new QueryDefault<Curso>(
+					Curso.class, "todosLosCursos"));
 		}
 
 		// endregion

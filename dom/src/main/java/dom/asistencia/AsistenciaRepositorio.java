@@ -15,6 +15,7 @@ import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
+import org.apache.isis.applib.query.QueryDefault;
 
 @DomainService(menuOrder = "50", repositoryFor = Asistencia.class)
 @Named("Asistencia")
@@ -80,6 +81,36 @@ public class AsistenciaRepositorio {
 
 	// endregion
 
+	// {{ asistenciaCursoDia (action)
+
+	@Named("Asistencia de un curso")
+	@MemberOrder(sequence = "6")
+
+	public List<AsistenciaAlumno> tomarAsistenciaCurso(
+		final @Named("Curso") Curso curso,
+		final @Named("Fecha") Date fecha) {
+		
+		int anio= curso.getAnio();
+		String division = curso.getDivision();
+				
+		return container.allMatches(new QueryDefault<AsistenciaAlumno>(
+				AsistenciaAlumno.class, "asistenciaAlumno_asistenciaDiaCurso", 
+				"anio", anio, 
+				"division", division,
+				"fecha", fecha
+				));
+	}
+	
+	public List<Curso> choices0TomarAsistenciaCurso (){
+		return container.allMatches(new QueryDefault<Curso>(
+				Curso.class, "todosLosCursos"));
+	}
+	
+	// }}
+
+
+	
+	
 		
 
 	// region > injected services

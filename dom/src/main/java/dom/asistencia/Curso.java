@@ -22,6 +22,12 @@ import org.apache.isis.applib.query.QueryDefault;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Queries({
+	@javax.jdo.annotations.Query(name = "todosLosCursos", language = "JDOQL", 
+			value = "SELECT FROM dom.asistencia.Curso"
+			+ " order by anio asc, division asc"
+			) })
+
 @Bounded
 public class Curso {
 
