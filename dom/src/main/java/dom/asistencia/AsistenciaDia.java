@@ -21,6 +21,9 @@ import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.Bulk;
+import org.apache.isis.applib.annotation.Disabled;
+import org.apache.isis.applib.annotation.MemberGroupLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Render;
@@ -33,11 +36,12 @@ import org.apache.isis.applib.query.QueryDefault;
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
 
 @Bookmarkable
+@MemberGroupLayout(columnSpans = {12,0,0,12})
 public class AsistenciaDia {
 
 	// {{ Fecha (property)
 	private Date fecha;
-
+	@Disabled
 	@MemberOrder(sequence = "1")
 	@javax.jdo.annotations.Column(allowsNull = "false")
 	public Date getFecha() {
@@ -54,10 +58,12 @@ public class AsistenciaDia {
 	@Join
 	@Element(dependent = "false")
 	
+	
 	private List<AsistenciaAlumno> asistenciaAlumnoList = new ArrayList<AsistenciaAlumno>();
 	@ActionSemantics(Of.SAFE)
 	@Render(Type.EAGERLY)
 	@MemberOrder(sequence = "1")
+	@Disabled
 	public List<AsistenciaAlumno> getAsistenciaAlumnoList() {
 		return asistenciaAlumnoList;
 	}
@@ -109,31 +115,6 @@ public class AsistenciaDia {
 		return s;
 	}
 
-	// {{ prueba (action)
-	@MemberOrder(sequence = "6")
-
-	public List<AsistenciaAlumno> tomarAsistenciaCurso(
-		final @Named("Curso") Curso curso) {
-		
-		int anio= curso.getAnio();
-		String division = curso.getDivision();
-		Date fecha = this.getFecha();
-		
-		
-		return container.allMatches(new QueryDefault<AsistenciaAlumno>(
-				AsistenciaAlumno.class, "asistenciaAlumno_asistenciaDiaCurso", 
-				"anio", anio, 
-				"division", division,
-				"fecha", fecha
-				));
-		
-	}
-
-	public List<Curso> choices0TomarAsistenciaCurso (){
-		return container.allMatches(new QueryDefault<Curso>(
-				Curso.class, "todosLosCursos"));
-	}
-	
 	
 	
 	// region > injected services
@@ -141,7 +122,5 @@ public class AsistenciaDia {
 
 	@javax.inject.Inject
 	DomainObjectContainer container;
-
-	// endregion
 
 }

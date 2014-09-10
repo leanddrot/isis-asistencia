@@ -11,6 +11,8 @@ import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.Bounded;
 import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.HomePage;
+import org.apache.isis.applib.annotation.MemberGroupLayout;
+import org.apache.isis.applib.annotation.MemberGroups;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.query.QueryDefault;
@@ -26,13 +28,14 @@ import org.apache.isis.applib.query.QueryDefault;
 				+ "&& this.alumno.curso.division == :division"
 				+ "&& this.fecha == :fecha") })
 @Bounded
+@MemberGroupLayout(columnSpans = {6,0,0,0})
 public class AsistenciaAlumno {
 
 	// {{ Fecha (property)
 	private Date date;
 
 	@Disabled
-	@MemberOrder(sequence = "1")
+	@MemberOrder(sequence = "1.8")
 	@Column(allowsNull = "false")
 	public Date getFecha() {
 		return date;
@@ -62,7 +65,7 @@ public class AsistenciaAlumno {
 
 	// {{ EstaPresente (property)
 	private boolean estaPresente;
-
+	@Disabled
 	@MemberOrder(sequence = "2")
 	@javax.jdo.annotations.Column(allowsNull = "false", defaultValue = "false")
 	public boolean getEstaPresente() {
@@ -77,7 +80,7 @@ public class AsistenciaAlumno {
 
 	// {{ LlegoTarde (property)
 	private boolean llegoTarde;
-
+	@Disabled
 	@MemberOrder(sequence = "3")
 	@javax.jdo.annotations.Column(allowsNull = "false", defaultValue = "false")
 	public boolean getLlegoTarde() {
@@ -95,7 +98,7 @@ public class AsistenciaAlumno {
 	}
 
 	// {{ marcarPresente (action)
-	@MemberOrder(sequence = "1", name = "estaPresente")
+	@MemberOrder(sequence = "1", name = "llegoTarde")
 	public AsistenciaAlumno marcarPresente() {
 		setEstaPresente(true);
 
@@ -105,7 +108,7 @@ public class AsistenciaAlumno {
 	// }}
 
 	// {{ marcarTarde (action)
-	@MemberOrder(sequence = "1", name = "llegoTarde")
+	@MemberOrder(sequence = "2", name = "llegoTarde")
 	public AsistenciaAlumno marcarTarde() {
 		setEstaPresente(true);
 		setLlegoTarde(true);
@@ -113,23 +116,48 @@ public class AsistenciaAlumno {
 		return this;
 	}
 
+	// {{ marcarAusente (action)
+		@MemberOrder(sequence = "3", name = "llegoTarde")
+		public AsistenciaAlumno marcarAusente() {
+			setEstaPresente(false);
+			setLlegoTarde(false);
+
+			return this;
+		}
+
+	
+	
 	// }}
 
+		
+		/*
 	// {{ volver (action)
 	@MemberOrder(sequence = "10")
-	public List<AsistenciaAlumno> volverALaLista() {
-
+	@Named("Volver")
+	public TomarAsistencia volverALaLista() {
+		
+		TomarAsistencia tomar = new TomarAsistencia();
+		
 		int anio = this.getAlumno().getCurso().getAnio();
 		String division = this.getAlumno().getCurso().getDivision();
 		Date fecha = this.getFecha();
 
-		return container.allMatches(new QueryDefault<AsistenciaAlumno>(
-				AsistenciaAlumno.class, "asistenciaAlumno_asistenciaDiaCurso",
-				"anio", anio, "division", division, "fecha", fecha));
+		tomar.setAsistenciAlumnos(container.allMatches(new QueryDefault<AsistenciaAlumno>(
+				AsistenciaAlumno.class, "asistenciaAlumno_asistenciaDiaCurso", 
+				"anio", anio, 
+				"division", division,
+				"fecha", fecha
+				)));
+		
+		tomar.setAlumnoActivo(this);
+		
+		return tomar; 
 	}
 
 	// }}
-
+*/
+	
+	
 	// region > injected services
 	// //////////////////////////////////////
 

@@ -84,6 +84,8 @@ public class Asistencia {
 		this.asistenciasDia.add(asistenciaDia);
 		return asistenciaDia;
 	}
+	
+	
 
 	// endregion
 
