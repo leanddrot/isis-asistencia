@@ -27,7 +27,7 @@ import org.apache.isis.applib.annotation.Render.Type;
 	@javax.jdo.annotations.Query(name = "BuscarAsistenciDiaPorFechaParaUnEsquema", 
 			language = "JDOQL", 
 			value = "SELECT FROM dom.asistencia.AsistenciaDia"
-					+" ")
+					+" WHERE this.fecha == :fecha")
 				
 })
 

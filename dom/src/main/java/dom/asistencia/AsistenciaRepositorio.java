@@ -117,6 +117,20 @@ public class AsistenciaRepositorio {
 	}
 
 	
+	public String validateCreateAsistenciaDia(Asistencia asistencia, Date fecha){
+		List<AsistenciaDia> asistenciaDiaList = container.allMatches(
+				new QueryDefault<AsistenciaDia>(AsistenciaDia.class,
+				"BuscarAsistenciDiaPorFechaParaUnEsquema", "fecha", fecha));
+		
+		if (asistenciaDiaList.isEmpty()){
+			return null;
+		}
+				
+		return "Ya existe asistencia para ese dia";
+	}
+	
+	
+	
 	//todosLosEsquemasAlfabeticamente
 	
 	// endregion
