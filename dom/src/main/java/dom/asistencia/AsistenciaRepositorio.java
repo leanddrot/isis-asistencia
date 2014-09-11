@@ -116,6 +116,11 @@ public class AsistenciaRepositorio {
 		return choices0CreateAsistenciaDia().get(0);
 	}
 
+	public String validate0CreateAsistenciaDia(){
+		
+		return " ";
+	}
+	
 	//todosLosEsquemasAlfabeticamente
 	
 	// endregion
