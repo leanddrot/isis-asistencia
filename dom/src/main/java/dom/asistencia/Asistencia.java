@@ -23,6 +23,13 @@ import org.apache.isis.applib.annotation.Render.Type;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
+@javax.jdo.annotations.Queries({ 
+	@javax.jdo.annotations.Query(name = "todosLosEsquemasAlfabeticamente", 
+			language = "JDOQL", 
+			value = "SELECT FROM dom.asistencia.Asistencia"
+					+" order by this.descripcion asc")
+})
+
 public class Asistencia {
 
 	// {{ Descripcion (property)
@@ -46,55 +53,20 @@ public class Asistencia {
 	@Join
 	@Element(dependent = "True")
 	
-	private List<AsistenciaDia> asistenciasDia = new ArrayList<AsistenciaDia>();
+	private List<AsistenciaDia> asistenciasDiaList = new ArrayList<AsistenciaDia>();
 	
 	@Render(Type.EAGERLY)
 	@MemberOrder(sequence = "1")
-	public List<AsistenciaDia> getAsistenciasDia() {
-		return asistenciasDia;
+	public List<AsistenciaDia> getAsistenciasDiaList() {
+		return asistenciasDiaList;
 	}
 
-	public void setAsistenciasDia(final List<AsistenciaDia> asistenciasDia) {
-		this.asistenciasDia = asistenciasDia;
+	public void setAsistenciasDiaList(final List<AsistenciaDia> asistenciasDia) {
+		this.asistenciasDiaList = asistenciasDia;
 	}
 
 	// }}
 
-	// region > create (action)
-	// //////////////////////////////////////
-
-	@MemberOrder(sequence = "6")
-	@Named("Crear Asistencia del dia")
 	
-	public AsistenciaDia createAsitenciDia(final @Named("Fecha") Date fecha) {
-
-		AsistenciaDia asistenciaDia = new AsistenciaDia();
-		List<Alumno> todosLosAlumnos = container.allInstances(Alumno.class);
-		List<AsistenciaAlumno> asistenciaAlumnoList = new ArrayList<AsistenciaAlumno>();
-		
-		for (Alumno unAlumno : todosLosAlumnos){
-			AsistenciaAlumno asistenciaAlumno = new AsistenciaAlumno();
-			asistenciaAlumno.setAlumno(unAlumno);
-			asistenciaAlumno.setFecha(fecha);
-			asistenciaAlumnoList.add(asistenciaAlumno);
-		}
-		
-		asistenciaDia.setFecha(fecha);
-		asistenciaDia.setAsistenciaAlumnoList(asistenciaAlumnoList);
-		this.asistenciasDia.add(asistenciaDia);
-		return asistenciaDia;
-	}
-	
-	
-
-	// endregion
-
-	// region > injected services
-	// //////////////////////////////////////
-
-	@javax.inject.Inject
-	DomainObjectContainer container;
-
-	// endregion
 
 }

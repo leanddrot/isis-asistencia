@@ -47,7 +47,7 @@ public class TomarAsistenciaService {
     @Bookmarkable
     @ActionSemantics(Of.SAFE)
     @MemberOrder(sequence = "2") 
-    public TomarAsistencia porCursoPorDia(Curso curso, Date fecha){
+    public TomarAsistencia porCurso(Curso curso, Date fecha){
     	int anio= curso.getAnio();
 		String division = curso.getDivision();
 		
@@ -66,12 +66,12 @@ public class TomarAsistenciaService {
 		return ta;
     }
     
-    public List<Curso> choices0PorCursoPorDia (){
+    public List<Curso> choices0PorCurso (){
 		return container.allMatches(new QueryDefault<Curso>(
 				Curso.class, "todosLosCursos"));
 	}
     
-    public Curso default0PorCursoPorDia (){
+    public Curso default0PorCurso (){
 		return container.allMatches(new QueryDefault<Curso>(
 				Curso.class, "todosLosCursos")).get(0);
 	}
