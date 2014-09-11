@@ -11,6 +11,7 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.query.QueryDefault;
@@ -69,7 +70,7 @@ public class AlumnoRepositorio {
 	// //////////////////////////////////////
 
 	@ActionSemantics(Of.NON_IDEMPOTENT)
-	@MemberOrder(sequence = "4")
+	@MemberOrder(sequence = "10")
 	@Named("Borrar Alumno")
 	public String borrarAlumno(@Named("User") Alumno alumno) {
 		String nombre = alumno.title();
@@ -89,7 +90,7 @@ public class AlumnoRepositorio {
 	public List<Alumno> listSinCurso() {
 		return container.allMatches(new QueryDefault<Alumno>(Alumno.class,
 				"alumnosSinCurso"));
-		
+
 	}
 
 	// endregion
@@ -99,7 +100,7 @@ public class AlumnoRepositorio {
 
 	@Bookmarkable
 	@ActionSemantics(Of.SAFE)
-	@MemberOrder(sequence = "1.5")
+	@MemberOrder(sequence = "2")
 	@Named("Listar Alumnos de un Curso")
 	public List<Alumno> listAlumnosDeUnCurso(final @Named("Curso") Curso curso) {
 		int anio = curso.getAnio();
@@ -111,11 +112,30 @@ public class AlumnoRepositorio {
 
 	// endregion
 
+	// region > list Alumnos sin curso (action)
+	// //////////////////////////////////////
+
+	@Bookmarkable
+	@ActionSemantics(Of.SAFE)
+	@MemberOrder(sequence = "3")
+	@Named("Listar Ordenados por Curso")
+	public List<Alumno> listOrdenadosPorCurso() {
+		return queryOrdenadosPorCurso();
+	}
+
+	// endregion
+
+	@Programmatic
+	public static List<Alumno> queryOrdenadosPorCurso() {
+		return container.allMatches(new QueryDefault<Alumno>(Alumno.class,
+				"alumnosOrdenadosPorCurso"));
+	}
+
 	// region > injected services
 	// //////////////////////////////////////
 
 	@javax.inject.Inject
-	DomainObjectContainer container;
+	static DomainObjectContainer container;
 
 	// endregion
 

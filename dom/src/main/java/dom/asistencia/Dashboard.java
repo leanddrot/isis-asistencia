@@ -29,7 +29,7 @@ import org.apache.isis.applib.annotation.Named;
 import org.apache.isis.applib.annotation.Render;
 import org.apache.isis.applib.annotation.Render.Type;
 
-@MemberGroupLayout(columnSpans = {12,0,0,12})
+@MemberGroupLayout(columnSpans = {0,0,0,12})
 public class Dashboard extends AbstractViewModel {
 
     //region > identification in the UI
@@ -63,7 +63,8 @@ public class Dashboard extends AbstractViewModel {
     @Disabled
     @MemberOrder(sequence = "1")
     public List<Curso> getListadoDeCursos() {
-    	return container.allInstances(Curso.class);
+    	//return container.allInstances(Curso.class);
+    	return CursoRepositorio.querylistAll();
     }
     //endregion
 
@@ -73,7 +74,7 @@ public class Dashboard extends AbstractViewModel {
     @Disabled
     @MemberOrder(sequence = "2")
     public List<Alumno> getListadoDeAlumnos() {
-        return container.allInstances(Alumno.class);
+        return AlumnoRepositorio.queryOrdenadosPorCurso();
     }
     //endregion
 

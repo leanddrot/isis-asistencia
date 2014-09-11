@@ -10,6 +10,7 @@ import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.query.QueryDefault;
@@ -40,8 +41,7 @@ public class CursoRepositorio {
 		@MemberOrder(sequence = "1")
 		@Named("Listar Cursos")
 		public List<Curso> listAll() {
-			return container.allMatches(new QueryDefault<Curso>(
-					Curso.class, "todosLosCursos"));
+			return querylistAll();
 		}
 
 		// endregion
@@ -80,13 +80,17 @@ public class CursoRepositorio {
 
 		// endregion
 
-			
+		@Programmatic
+		public static List<Curso> querylistAll() {
+			return container.allMatches(new QueryDefault<Curso>(
+					Curso.class, "todosLosCursos"));
+		}
 
 		// region > injected services
 		// //////////////////////////////////////
 
 		@javax.inject.Inject
-		DomainObjectContainer container;
+		static DomainObjectContainer container;
 
 		// endregion
 		

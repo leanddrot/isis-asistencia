@@ -19,7 +19,12 @@ import org.apache.isis.applib.annotation.ObjectType;
 			language = "JDOQL", 
 			value = "SELECT FROM dom.asistencia.Alumno"
 					+" WHERE this.curso.anio == :anio"
-					+" && this.curso.division == :division") 
+					+" && this.curso.division == :division"),
+	@javax.jdo.annotations.Query(name = "alumnosOrdenadosPorCurso", 
+			language = "JDOQL", 
+			value = "SELECT FROM dom.asistencia.Alumno"
+					+" order by this.curso.anio asc, this.curso.division asc")
+
 	})
 @ObjectType("alumno")
 @Bounded
