@@ -130,34 +130,6 @@ public class AsistenciaAlumno {
 	// }}
 
 		
-		/*
-	// {{ volver (action)
-	@MemberOrder(sequence = "10")
-	@Named("Volver")
-	public TomarAsistencia volverALaLista() {
-		
-		TomarAsistencia tomar = new TomarAsistencia();
-		
-		int anio = this.getAlumno().getCurso().getAnio();
-		String division = this.getAlumno().getCurso().getDivision();
-		Date fecha = this.getFecha();
-
-		tomar.setAsistenciAlumnos(container.allMatches(new QueryDefault<AsistenciaAlumno>(
-				AsistenciaAlumno.class, "asistenciaAlumno_asistenciaDiaCurso", 
-				"anio", anio, 
-				"division", division,
-				"fecha", fecha
-				)));
-		
-		tomar.setAlumnoActivo(this);
-		
-		return tomar; 
-	}
-
-	// }}
-*/
-	
-	
 	// region > injected services
 	// //////////////////////////////////////
 

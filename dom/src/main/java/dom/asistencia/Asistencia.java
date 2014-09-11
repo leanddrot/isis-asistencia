@@ -28,6 +28,7 @@ import org.apache.isis.applib.annotation.Render.Type;
 			language = "JDOQL", 
 			value = "SELECT FROM dom.asistencia.Asistencia"
 					+" order by this.descripcion asc")
+				
 })
 
 public class Asistencia {

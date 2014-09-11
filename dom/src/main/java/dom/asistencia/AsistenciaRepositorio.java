@@ -87,7 +87,7 @@ public class AsistenciaRepositorio {
 	@MemberOrder(sequence = "6")
 	@Named("Crear Asistencia Diaria")
 	
-	public AsistenciaDia createAsistenciaDia(final @Named("Esquema") Asistencia asistencia,
+	public Asistencia createAsistenciaDia(final @Named("Esquema") Asistencia asistencia,
 											final @Named("Fecha") Date fecha) {
 
 		AsistenciaDia asistenciaDia = new AsistenciaDia();
@@ -104,7 +104,7 @@ public class AsistenciaRepositorio {
 		asistenciaDia.setFecha(fecha);
 		asistenciaDia.setAsistenciaAlumnoList(asistenciaAlumnoList);
 		asistencia.getAsistenciasDiaList().add(asistenciaDia);
-		return asistenciaDia;
+		return asistencia;
 	}
 	
 	public List<Asistencia> choices0CreateAsistenciaDia(){
@@ -116,10 +116,6 @@ public class AsistenciaRepositorio {
 		return choices0CreateAsistenciaDia().get(0);
 	}
 
-	public String validate0CreateAsistenciaDia(){
-		
-		return " ";
-	}
 	
 	//todosLosEsquemasAlfabeticamente
 	
