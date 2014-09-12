@@ -120,13 +120,15 @@ public class AsistenciaRepositorio {
 	public String validateCreateAsistenciaDia(Asistencia asistencia, Date fecha){
 		List<AsistenciaDia> asistenciaDiaList = container.allMatches(
 				new QueryDefault<AsistenciaDia>(AsistenciaDia.class,
-				"BuscarAsistenciDiaPorFechaParaUnEsquema", "fecha", fecha));
+				"BuscarAsistenciDiaPorFechaParaUnEsquema", 
+				"fecha", fecha,
+				"descripcion",asistencia.getDescripcion()));
 		
 		if (asistenciaDiaList.isEmpty()){
 			return null;
 		}
 				
-		return "Ya existe asistencia para ese dia";
+		return "Ya existe asistencia creada para ese dia en este esquema de asistencia";
 	}
 	
 	

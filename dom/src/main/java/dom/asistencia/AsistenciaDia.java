@@ -5,10 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
 import javax.jdo.annotations.VersionStrategy;
+
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.ActionSemantics.Of;
@@ -27,7 +30,8 @@ import org.apache.isis.applib.annotation.Render.Type;
 	@javax.jdo.annotations.Query(name = "BuscarAsistenciDiaPorFechaParaUnEsquema", 
 			language = "JDOQL", 
 			value = "SELECT FROM dom.asistencia.AsistenciaDia"
-					+" WHERE this.fecha == :fecha")
+					+" WHERE this.fecha == :fecha "
+					+" && this.asistencia.descripcion == :descripcion")
 				
 })
 
@@ -50,11 +54,26 @@ public class AsistenciaDia {
 
 	// }}
 
+	// {{ Asistencia (property)
+	private Asistencia asistencia;
+
+	@Named("Pertenece a:")
+	@MemberOrder(sequence = "1")
+	@Column(allowsNull = "true")
+	public Asistencia getAsistencia() {
+		return asistencia;
+	}
+
+	public void setAsistencia(final Asistencia asistencia) {
+		this.asistencia = asistencia;
+	}
+	// }}
+
+
+	
 	// {{ AsistenciaAlumnos (Collection)
 	@Join
 	@Element(dependent = "false")
-	
-	
 	private List<AsistenciaAlumno> asistenciaAlumnoList = new ArrayList<AsistenciaAlumno>();
 	@ActionSemantics(Of.SAFE)
 	@Render(Type.EAGERLY)

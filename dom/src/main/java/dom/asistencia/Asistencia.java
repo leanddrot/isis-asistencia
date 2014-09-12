@@ -52,8 +52,7 @@ public class Asistencia {
 	// {{ AsistenciasDia (Collection)
 	
 	@Join
-	@Element(dependent = "True")
-	
+	@Element(mappedBy = "asistencia", dependent = "True")
 	private List<AsistenciaDia> asistenciasDiaList = new ArrayList<AsistenciaDia>();
 	
 	@Render(Type.EAGERLY)

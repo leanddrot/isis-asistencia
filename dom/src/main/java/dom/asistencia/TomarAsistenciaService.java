@@ -47,10 +47,12 @@ public class TomarAsistenciaService {
     @Bookmarkable
     @ActionSemantics(Of.SAFE)
     @MemberOrder(sequence = "2") 
-    public TomarAsistencia porCurso(Curso curso, Date fecha){
+    public TomarAsistencia porCurso(@Named("Esquema") final Asistencia asistencia, 
+    								@Named("Curso") Curso curso, 
+    								@Named("Fecha") Date fecha){
     	int anio= curso.getAnio();
 		String division = curso.getDivision();
-		
+				
 		List<AsistenciaAlumno> lista = container.allMatches(new QueryDefault<AsistenciaAlumno>(
 				AsistenciaAlumno.class, "asistenciaAlumno_asistenciaDiaCurso", 
 				"anio", anio, 
@@ -66,16 +68,37 @@ public class TomarAsistenciaService {
 		return ta;
     }
     
-    public List<Curso> choices0PorCurso (){
+    public List<Curso> choices1PorCurso (){
 		return container.allMatches(new QueryDefault<Curso>(
 				Curso.class, "todosLosCursos"));
 	}
     
-    public Curso default0PorCurso (){
+    public Curso default1PorCurso (){
 		return container.allMatches(new QueryDefault<Curso>(
 				Curso.class, "todosLosCursos")).get(0);
 	}
+
+    public List<Asistencia> choices0PorCurso (){
+		return container.allInstances(Asistencia.class);
+	}
     
+    public Asistencia default0PorCurso (){
+		return choices0PorCurso().get(0);
+	}
+    
+    public String validatePorCurso(Asistencia asistencia, Curso curso, Date fecha){
+    	List<AsistenciaDia> asistenciaDiaList = container.allMatches(
+				new QueryDefault<AsistenciaDia>(AsistenciaDia.class,
+				"BuscarAsistenciDiaPorFechaParaUnEsquema", 
+				"fecha", fecha,
+				"descripcion",asistencia.getDescripcion()));
+		
+		if (!asistenciaDiaList.isEmpty()){
+			return null;
+		}
+				
+		return "No existe asistencia creada para ese dia en este esquema de asistencia";
+    }
     
     
     

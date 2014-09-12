@@ -63,7 +63,6 @@ public class Curso {
 
 	// {{ AlumnosList (Collection)
 	@Join
-	//@Element(dependent = "false")
 	@Persistent(mappedBy = "curso", dependentElement = "false")
 	private List<Alumno> alumnosList = new ArrayList<Alumno>();
 	@Render(Type.EAGERLY)
