@@ -10,6 +10,7 @@ import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Join;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
 
 import org.apache.isis.applib.DomainObjectContainer;
@@ -73,7 +74,7 @@ public class AsistenciaDia {
 	
 	// {{ AsistenciaAlumnos (Collection)
 	@Join
-	@Element(dependent = "false")
+	@Persistent(mappedBy = "asistenciaDia", dependentElement = "false")
 	private List<AsistenciaAlumno> asistenciaAlumnoList = new ArrayList<AsistenciaAlumno>();
 	@ActionSemantics(Of.SAFE)
 	@Render(Type.EAGERLY)
