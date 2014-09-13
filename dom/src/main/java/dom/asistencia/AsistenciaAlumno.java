@@ -25,9 +25,10 @@ import org.apache.isis.applib.query.QueryDefault;
 
 		@javax.jdo.annotations.Query(name = "asistenciaAlumno_asistenciaDiaCurso", language = "JDOQL", value = "SELECT FROM dom.asistencia.AsistenciaAlumno"
 				+ " WHERE this.alumno.curso.anio == :anio "
-				+ "&& this.alumno.curso.division == :division"
-				+ "&& this.asistenciaDia.fecha == :fecha"
-				+ "") })
+				+ "&& this.alumno.curso.division == :division "
+				+ "&& this.asistenciaDia.fecha == :fecha "
+				+ "&& this.asistenciaDia.asistencia.descripcion == :asistencia "
+				+ "order by this.alumno.apellido asc, this.alumno.nombre asc") })
 @Bounded
 @MemberGroupLayout(columnSpans = {6,0,0,0})
 public class AsistenciaAlumno {

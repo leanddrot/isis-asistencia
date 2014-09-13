@@ -52,8 +52,10 @@ public class TomarAsistenciaService {
     								@Named("Fecha") Date fecha){
     	int anio= curso.getAnio();
 		String division = curso.getDivision();
-				
-		List<AsistenciaAlumno> lista = queryAsistenciaAlumnoPorCursoPorDia(fecha, anio, division);
+		String asistenciaDescripcion = asistencia.getDescripcion();
+		
+		List<AsistenciaAlumno> lista = queryAsistenciaAlumnoPorCursoPorDia(
+										fecha, anio, division, asistenciaDescripcion);
 		
 		TomarAsistencia ta = container.newTransientInstance(TomarAsistencia.class);
 		ta.setAlumnoActivo(lista.get(0));
@@ -64,12 +66,13 @@ public class TomarAsistenciaService {
     }
 
 	public static List<AsistenciaAlumno> queryAsistenciaAlumnoPorCursoPorDia(
-			Date fecha, int anio, String division) {
+			Date fecha, int anio, String division, String asistencia) {
 		return container.allMatches(new QueryDefault<AsistenciaAlumno>(
 				AsistenciaAlumno.class, "asistenciaAlumno_asistenciaDiaCurso", 
 				"anio", anio, 
 				"division", division,
-				"fecha", fecha
+				"fecha", fecha,
+				"asistencia", asistencia
 				));
 	}
     

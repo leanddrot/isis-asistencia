@@ -103,6 +103,7 @@ public class AsistenciaRepositorio {
 		}
 		
 		asistenciaDia.setFecha(fecha);
+		asistenciaDia.setAsistencia(asistencia);
 		asistenciaDia.setAsistenciaAlumnoList(asistenciaAlumnoList);
 		asistencia.getAsistenciasDiaList().add(asistenciaDia);
 		return asistencia;
