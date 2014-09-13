@@ -97,8 +97,9 @@ public class AsistenciaRepositorio {
 		for (Alumno unAlumno : todosLosAlumnos){
 			AsistenciaAlumno asistenciaAlumno = new AsistenciaAlumno();
 			asistenciaAlumno.setAlumno(unAlumno);
-			asistenciaAlumno.setFecha(fecha);
+			asistenciaAlumno.setAsistenciaDia(asistenciaDia);
 			asistenciaAlumnoList.add(asistenciaAlumno);
+			
 		}
 		
 		asistenciaDia.setFecha(fecha);

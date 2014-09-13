@@ -47,24 +47,6 @@ public class AsistenciaAlumno {
 	// }}
 
 
-	
-	
-	// {{ Fecha (property)
-	private Date date;
-
-	@Disabled
-	@MemberOrder(sequence = "1.8")
-	@Column(allowsNull = "false")
-	public Date getFecha() {
-		return date;
-	}
-
-	public void setFecha(final Date date) {
-		this.date = date;
-	}
-
-	// }}
-
 	// {{ Alumno (property)
 	private Alumno alumno;
 

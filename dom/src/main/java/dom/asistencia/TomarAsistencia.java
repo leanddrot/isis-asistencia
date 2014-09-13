@@ -29,7 +29,7 @@ public class TomarAsistencia {
 	public String title() {
 
 		Format formatter = new SimpleDateFormat("dd-MM-yyyy");
-		String fecha = formatter.format(getAlumnoActivo().getFecha());
+		String fecha = formatter.format(getAlumnoActivo().getAsistenciaDia().getFecha());
 
 		return "Asistencia de "
 				+ this.getAlumnoActivo().getAlumno().getCurso().getAnio()
