@@ -53,12 +53,7 @@ public class TomarAsistenciaService {
     	int anio= curso.getAnio();
 		String division = curso.getDivision();
 				
-		List<AsistenciaAlumno> lista = container.allMatches(new QueryDefault<AsistenciaAlumno>(
-				AsistenciaAlumno.class, "asistenciaAlumno_asistenciaDiaCurso", 
-				"anio", anio, 
-				"division", division,
-				"fecha", fecha
-				));
+		List<AsistenciaAlumno> lista = queryAsistenciaAlumnoPorCursoPorDia(fecha, anio, division);
 		
 		TomarAsistencia ta = container.newTransientInstance(TomarAsistencia.class);
 		ta.setAlumnoActivo(lista.get(0));
@@ -67,6 +62,16 @@ public class TomarAsistenciaService {
 		
 		return ta;
     }
+
+	public static List<AsistenciaAlumno> queryAsistenciaAlumnoPorCursoPorDia(
+			Date fecha, int anio, String division) {
+		return container.allMatches(new QueryDefault<AsistenciaAlumno>(
+				AsistenciaAlumno.class, "asistenciaAlumno_asistenciaDiaCurso", 
+				"anio", anio, 
+				"division", division,
+				"fecha", fecha
+				));
+	}
     
     public List<Curso> choices1PorCurso (){
 		return container.allMatches(new QueryDefault<Curso>(
@@ -100,14 +105,28 @@ public class TomarAsistenciaService {
 		return "No existe asistencia creada para ese dia en este esquema de asistencia";
     }
     
+    @Named("Prueba ViewModel")
+    @Bookmarkable
+    @ActionSemantics(Of.SAFE)
+    @MemberOrder(sequence = "2") 
+    public TomarAsistenciaView porCurso(){
+    	
+    	final TomarAsistenciaView pizarra = container.newViewModelInstance(TomarAsistenciaView.class, "Prueba,Esta es la descripcion de la prueba");
+    	
+    	List<AsistenciaAlumno> lista = container.allInstances(AsistenciaAlumno.class);
+    	pizarra.setAlumnoActivo(lista.get(0));
+    	pizarra.setAsistenciAlumnos(lista);
+
+    	return pizarra;
+    	
+    }
     
     
  // region > injected services
 	// //////////////////////////////////////
     
 	@javax.inject.Inject
-	DomainObjectContainer container;
-
+	static DomainObjectContainer container;
 	
 	
 	// endregion
