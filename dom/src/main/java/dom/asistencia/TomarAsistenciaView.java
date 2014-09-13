@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Element;
 import javax.jdo.annotations.Join;
@@ -49,9 +50,10 @@ public class TomarAsistenciaView extends AbstractViewModel {
 		return viewModelMemento();
 	}
 
+	private String title;
 	// region > identification in the UI
 	public String title() {
-		return viewModelMemento().split(",")[0];
+		return title;
 	}
 
 	public String iconName() {
@@ -71,11 +73,33 @@ public class TomarAsistenciaView extends AbstractViewModel {
 	@Override
 	public void viewModelInit(String memento) {
 		this.memento = memento;
+		setCurso(viewModelMemento());
+		setDescripcion(viewModelMemento().split(",")[1]);
+		title = viewModelMemento().split(",")[0];
 	}
 
 	
-	//	fecha = TraductorServicio.stringToDate(viewModelMemento().split(",")[1]);
+	@Hidden
+	@PostConstruct
+	private void postInit(){
+		setCurso(viewModelMemento());
+	}
 	
+	// {{ Curso (property)
+	private String curso;
+
+	@MemberOrder(sequence = "4")
+	@Column(allowsNull = "true")
+	public String getCurso() {
+		return curso;
+	}
+
+	public void setCurso(final String curso) {
+		this.curso = curso;
+	}
+	// }}
+
+
 	
 	// {{ Descripcion (property)
 	private String descripcion;
@@ -84,7 +108,7 @@ public class TomarAsistenciaView extends AbstractViewModel {
 	@Column(allowsNull = "true")
 	@MultiLine(numberOfLines=3)
 	public String getDescripcion() {
-		return viewModelMemento().split(",")[1];
+		return descripcion;
 	}
 
 	public void setDescripcion(final String descripcion) {
