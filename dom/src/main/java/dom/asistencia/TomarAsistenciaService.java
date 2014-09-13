@@ -111,7 +111,8 @@ public class TomarAsistenciaService {
     @MemberOrder(sequence = "2") 
     public TomarAsistenciaView porCurso(){
     	
-    	final TomarAsistenciaView pizarra = container.newViewModelInstance(TomarAsistenciaView.class, "Prueba,Esta es la descripcion de la prueba");
+    	final TomarAsistenciaView pizarra = container.newViewModelInstance(TomarAsistenciaView.class, 
+    			"Prueba,Esquema1,01-09-2014,1,A");
     	
     	List<AsistenciaAlumno> lista = container.allInstances(AsistenciaAlumno.class);
     	pizarra.setAlumnoActivo(lista.get(0));

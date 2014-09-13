@@ -44,13 +44,14 @@ import org.apache.isis.applib.annotation.Render.Type;
 @Bookmarkable
 @MemberGroupLayout(columnSpans = { 5, 0, 0, 7 })
 public class TomarAsistenciaView extends AbstractViewModel {
-	
+
 	@Hidden
 	public String getId() {
 		return viewModelMemento();
 	}
 
 	private String title;
+
 	// region > identification in the UI
 	public String title() {
 		return title;
@@ -73,82 +74,95 @@ public class TomarAsistenciaView extends AbstractViewModel {
 	@Override
 	public void viewModelInit(String memento) {
 		this.memento = memento;
-		
+
 		String[] parametros = memento.split(",");
-		
-		setCurso(parametros[0]);
-		setDescripcion(parametros[1]);
+
 		title = parametros[0];
-		
+		setAsistencia(parametros[1]);
+		setFecha(parametros[2]);
+		setAnio(parametros[3]);
+		setDivision(parametros[4]);
+
+	}
+
+	private void inicializarListaAlumnos(	String asistencia,
+											String anio, 
+											String division,
+											String fecha) {
+
 	}
 
 	
-	@Hidden
-	@PostConstruct
-	private void postInit(){
-		setCurso(viewModelMemento());
-	}
-	
-	// {{ Curso (property)
-	private String curso;
-
-	@MemberOrder(sequence = "4")
-	@Column(allowsNull = "true")
-	public String getCurso() {
-		return curso;
-	}
-
-	public void setCurso(final String curso) {
-		this.curso = curso;
-	}
-	// }}
-
-
-	
-	// {{ Descripcion (property)
-	private String descripcion;
+	// {{ Asistencia (property)
+	private String asistencia;
 
 	@MemberOrder(sequence = "1")
 	@Column(allowsNull = "true")
-	@MultiLine(numberOfLines=3)
-	public String getDescripcion() {
-		return descripcion;
+	public String getAsistencia() {
+		return asistencia;
 	}
 
-	public void setDescripcion(final String descripcion) {
-		this.descripcion = descripcion;
+	public void setAsistencia(final String asistencia) {
+		this.asistencia = asistencia;
 	}
 	// }}
 
 
 	
 	// {{ Fecha (property)
-	private Date fecha;
+	private String fecha;
 
 	@MemberOrder(sequence = "1.3")
 	@Column(allowsNull = "true")
-	public Date getFecha() {
+	public String getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(final Date fecha) {
+	public void setFecha(final String fecha) {
 		this.fecha = fecha;
 	}
+
 	// }}
 
+	// {{ Anio (property)
+	private String anio;
 
-	
-	
-	
+	@MemberOrder(sequence = "2")
+	@Column(allowsNull = "true")
+	@Named("Año")
+	public String getAnio() {
+		return anio;
+	}
+
+	public void setAnio(final String anio) {
+		this.anio = anio;
+	}
+
+	// }}
+
+	// {{ Division (property)
+	private String division;
+
+	@MemberOrder(sequence = "3")
+	@Column(allowsNull = "true")
+	public String getDivision() {
+		return division;
+	}
+
+	public void setDivision(final String division) {
+		this.division = division;
+	}
+
+	// }}
 
 	// {{ AlumnoActivo (property)
 	private AsistenciaAlumno alumnoActivo;
 
-	@MemberOrder(sequence = "2")
+	@MemberOrder(sequence = "4")
 	@Column(allowsNull = "false")
 	public AsistenciaAlumno getAlumnoActivo() {
 		return alumnoActivo;
-		// return getAsistenciAlumnos().get(0);
+
 	}
 
 	public void setAlumnoActivo(final AsistenciaAlumno alumnoActivo) {
@@ -185,39 +199,34 @@ public class TomarAsistenciaView extends AbstractViewModel {
 	@PublishedAction
 	public TomarAsistenciaView cambiarMemento(final String memento) {
 
-		return container.newViewModelInstance(TomarAsistenciaView.class, memento);
+		return container.newViewModelInstance(TomarAsistenciaView.class,
+				memento);
 	}
 
 	// }}
 
 	// {{ cambiarFecha (action)
-		@MemberOrder(sequence = "2", name = "alumnoActivo")
-		@PublishedAction
-		public TomarAsistenciaView cambiarFecha(final Date fecha,
-											final String descripcion) {
+	@MemberOrder(sequence = "2", name = "alumnoActivo")
+	@PublishedAction
+	public TomarAsistenciaView cambiarFecha(final Date fecha) {
 
-			String fechaString = "11-09-2014";//TraductorServicio.DateToString(fecha);
-			
-			
-			String mementoString = descripcion + "," + fechaString;
-			System.out.println(" ");
-			System.out.println(" ");
-			System.out.println(mementoString);
-			System.out.println(" ");
-			System.out.println(" ");
-			return container.newViewModelInstance(TomarAsistenciaView.class, mementoString);
-		}
+		String fechaString = TraductorServicio.DateToString(fecha);
 
-		// }}
-	
-	
-	
-	
-	
+		String mementoString = 	title() + "," + 
+								getAsistencia() + "," +
+								fechaString + "," + 
+								getAnio() + "," + 
+								getDivision();
+
+		return container.newViewModelInstance(TomarAsistenciaView.class,
+				mementoString);
+	}
+
+	// }}
+
 	// region > injected services
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-	
 
 	// endregion
 
