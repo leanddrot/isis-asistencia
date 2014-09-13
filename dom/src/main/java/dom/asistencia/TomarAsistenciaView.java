@@ -18,6 +18,7 @@
  */
 package dom.asistencia;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,7 @@ import org.apache.isis.applib.annotation.MemberGroupLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.MultiLine;
 import org.apache.isis.applib.annotation.Named;
+import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Render;
 import org.apache.isis.applib.annotation.Render.Type;
@@ -82,16 +84,30 @@ public class TomarAsistenciaView extends AbstractViewModel {
 		setFecha(parametros[2]);
 		setAnio(parametros[3]);
 		setDivision(parametros[4]);
+		try {
+			inicializarListaAlumnos(asistencia, anio, division, fecha);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		inicializarAlumnoActivo();
 
 	}
-
+	
+	
+	@Programmatic
 	private void inicializarListaAlumnos(	String asistencia,
 											String anio, 
 											String division,
-											String fecha) {
-
+											String fecha) throws ParseException {
+		int anioInt = Integer.parseInt(anio); 
+		Date fechaDate = TraductorServicio.stringToDate(fecha);
+		setAsistenciAlumnos(TomarAsistenciaService.queryAsistenciaAlumnoPorCursoPorDia(fechaDate, anioInt, division));
 	}
-
+	
+	@Programmatic
+	private void inicializarAlumnoActivo(){
+		setAlumnoActivo(getAsistenciAlumnos().get(0));
+	}
 	
 	// {{ Asistencia (property)
 	private String asistencia;
@@ -183,7 +199,6 @@ public class TomarAsistenciaView extends AbstractViewModel {
 	@MemberOrder(sequence = "2")
 	public List<AsistenciaAlumno> getAsistenciAlumnos() {
 		return asistenciaAlumnoList;
-		// return container.allInstances(AsistenciaAlumno.class);
 	}
 
 	public void setAsistenciAlumnos(
