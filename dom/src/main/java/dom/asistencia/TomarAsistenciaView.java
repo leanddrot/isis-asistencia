@@ -73,9 +73,13 @@ public class TomarAsistenciaView extends AbstractViewModel {
 	@Override
 	public void viewModelInit(String memento) {
 		this.memento = memento;
-		setCurso(viewModelMemento());
-		setDescripcion(viewModelMemento().split(",")[1]);
-		title = viewModelMemento().split(",")[0];
+		
+		String[] parametros = memento.split(",");
+		
+		setCurso(parametros[0]);
+		setDescripcion(parametros[1]);
+		title = parametros[0];
+		
 	}
 
 	
