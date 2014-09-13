@@ -41,6 +41,7 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.Render;
 import org.apache.isis.applib.annotation.Render.Type;
+import org.apache.isis.applib.annotation.Where;
 
 @Named("TomarAsistenciaView")
 @Bookmarkable
@@ -84,6 +85,8 @@ public class TomarAsistenciaView extends AbstractViewModel {
 		setFecha(parametros[2]);
 		setAnio(parametros[3]);
 		setDivision(parametros[4]);
+		setIndiceAlumno(Integer.parseInt(parametros[5]));
+
 		try {
 			inicializarListaAlumnos(asistencia, anio, division, fecha);
 		} catch (ParseException e) {
@@ -92,23 +95,22 @@ public class TomarAsistenciaView extends AbstractViewModel {
 		inicializarAlumnoActivo();
 
 	}
-	
-	
+
 	@Programmatic
-	private void inicializarListaAlumnos(	String asistencia,
-											String anio, 
-											String division,
-											String fecha) throws ParseException {
-		int anioInt = Integer.parseInt(anio); 
+	private void inicializarListaAlumnos(String asistencia, String anio,
+			String division, String fecha) throws ParseException {
+		int anioInt = Integer.parseInt(anio);
 		Date fechaDate = TraductorServicio.stringToDate(fecha);
-		setAsistenciAlumnos(TomarAsistenciaService.queryAsistenciaAlumnoPorCursoPorDia(fechaDate, anioInt, division, asistencia));
+		setAsistenciAlumnos(TomarAsistenciaService
+				.queryAsistenciaAlumnoPorCursoPorDia(fechaDate, anioInt,
+						division, asistencia));
 	}
-	
+
 	@Programmatic
-	private void inicializarAlumnoActivo(){
-		setAlumnoActivo(getAsistenciAlumnos().get(0));
+	private void inicializarAlumnoActivo() {
+		setAlumnoActivo(getAsistenciAlumnos().get(getIndiceAlumno()));
 	}
-	
+
 	// {{ Asistencia (property)
 	private String asistencia;
 
@@ -121,10 +123,25 @@ public class TomarAsistenciaView extends AbstractViewModel {
 	public void setAsistencia(final String asistencia) {
 		this.asistencia = asistencia;
 	}
+
 	// }}
 
+	// {{ IndiceAlumno (property)
+	private int indiceAlumno;
 
-	
+	@Hidden
+	@MemberOrder(sequence = "1")
+	@Column(allowsNull = "true")
+	public int getIndiceAlumno() {
+		return indiceAlumno;
+	}
+
+	public void setIndiceAlumno(final int indiceAlumno) {
+		this.indiceAlumno = indiceAlumno;
+	}
+
+	// }}
+
 	// {{ Fecha (property)
 	private String fecha;
 
@@ -174,6 +191,7 @@ public class TomarAsistenciaView extends AbstractViewModel {
 	// {{ AlumnoActivo (property)
 	private AsistenciaAlumno alumnoActivo;
 
+	@Disabled
 	@MemberOrder(sequence = "4")
 	@Column(allowsNull = "false")
 	public AsistenciaAlumno getAlumnoActivo() {
@@ -194,7 +212,7 @@ public class TomarAsistenciaView extends AbstractViewModel {
 	@Element(dependent = "false")
 	private List<AsistenciaAlumno> asistenciaAlumnoList = new ArrayList<AsistenciaAlumno>();
 
-	@Disabled
+	@Disabled(where = Where.EVERYWHERE)
 	@Render(Type.EAGERLY)
 	@MemberOrder(sequence = "2")
 	public List<AsistenciaAlumno> getAsistenciAlumnos() {
@@ -209,35 +227,106 @@ public class TomarAsistenciaView extends AbstractViewModel {
 	// }} (end region)
 	// //////////////////////////////////////
 
-	// {{ cambiarActivo (action)
-	@MemberOrder(sequence = "1", name = "alumnoActivo")
+	// {{ pasarAlSiguienteAlumno (action)
+	@Named("SiguienteAlumno")
+	@MemberOrder(sequence = "4", name = "alumnoActivo")
 	@PublishedAction
-	public TomarAsistenciaView cambiarMemento(final String memento) {
+	public TomarAsistenciaView pasarAlSiguienteAlumno() {
 
-		return container.newViewModelInstance(TomarAsistenciaView.class,
-				memento);
-	}
+		int nuevoIndice = getIndiceAlumno() + 1;
 
-	// }}
+		if (nuevoIndice == getAsistenciAlumnos().size()) {
+			nuevoIndice = 0;
+		}
 
-	// {{ cambiarFecha (action)
-	@MemberOrder(sequence = "2", name = "alumnoActivo")
-	@PublishedAction
-	public TomarAsistenciaView cambiarFecha(final Date fecha) {
-
-		String fechaString = TraductorServicio.DateToString(fecha);
-
-		String mementoString = 	title() + "," + 
-								getAsistencia() + "," +
-								fechaString + "," + 
-								getAnio() + "," + 
-								getDivision();
+		String mementoString = title() + "," + getAsistencia() + ","
+				+ getFecha() + "," + getAnio() + "," + getDivision() + ","
+				+ nuevoIndice;
 
 		return container.newViewModelInstance(TomarAsistenciaView.class,
 				mementoString);
 	}
 
 	// }}
+
+	// {{ MarcarAlumnoPresente (action)
+	@Named("Presente")
+	@MemberOrder(sequence = "1", name = "alumnoActivo")
+	@PublishedAction
+	public TomarAsistenciaView marcarAlumnoPresente() {
+
+		getAlumnoActivo().setEstaPresente(true);
+		getAlumnoActivo().setLlegoTarde(false);
+
+		int nuevoIndice = getIndiceAlumno() + 1;
+
+		if (nuevoIndice == getAsistenciAlumnos().size()) {
+			nuevoIndice = 0;
+		}
+
+		String mementoString = title() + "," + getAsistencia() + ","
+				+ getFecha() + "," + getAnio() + "," + getDivision() + ","
+				+ nuevoIndice;
+
+		return container.newViewModelInstance(TomarAsistenciaView.class,
+				mementoString);
+	}
+
+	// }}
+
+	// {{ MarcarAlumnoTarde (action)
+	@Named("Tarde")
+	@MemberOrder(sequence = "2", name = "alumnoActivo")
+	@PublishedAction
+	public TomarAsistenciaView marcarAlumnoTarde() {
+
+		getAlumnoActivo().setEstaPresente(true);
+		getAlumnoActivo().setLlegoTarde(true);
+
+		int nuevoIndice = getIndiceAlumno() + 1;
+
+		if (nuevoIndice == getAsistenciAlumnos().size()) {
+			nuevoIndice = 0;
+		}
+
+		String mementoString = title() + "," + getAsistencia() + ","
+				+ getFecha() + "," + getAnio() + "," + getDivision() + ","
+				+ nuevoIndice;
+
+		return container.newViewModelInstance(TomarAsistenciaView.class,
+				mementoString);
+	}
+
+	// }}
+	
+
+
+	// {{ MarcarAlumnoAusente (action)
+	@Named("Ausente")
+	@MemberOrder(sequence = "3", name = "alumnoActivo")
+	@PublishedAction
+	public TomarAsistenciaView marcarAlumnoAusente() {
+
+		getAlumnoActivo().setEstaPresente(false);
+		getAlumnoActivo().setLlegoTarde(false);
+
+		int nuevoIndice = getIndiceAlumno() + 1;
+
+		if (nuevoIndice == getAsistenciAlumnos().size()) {
+			nuevoIndice = 0;
+		}
+
+		String mementoString = title() + "," + getAsistencia() + ","
+				+ getFecha() + "," + getAnio() + "," + getDivision() + ","
+				+ nuevoIndice;
+
+		return container.newViewModelInstance(TomarAsistenciaView.class,
+				mementoString);
+	}
+
+	// }}
+	
+	
 
 	// region > injected services
 	@javax.inject.Inject

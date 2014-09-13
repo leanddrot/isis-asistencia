@@ -38,7 +38,7 @@ public class CursosFixture extends FixtureScript {
     protected void execute(ExecutionContext executionContext) {
 
         // prereqs
-        execute(new AlumnosTearDownFixture(), executionContext);
+        execute(new CursosTearDownFixture(), executionContext);
 
         // create
         create(1, "A", executionContext);

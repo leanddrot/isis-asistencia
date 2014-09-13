@@ -134,19 +134,10 @@ public class AsistenciaRepositorio {
 	}
 	
 	
-	
-	//todosLosEsquemasAlfabeticamente
-	
 	// endregion
 	// /////////////////////////////////////////////////////////
-	
-
-		
 
 	
-	
-		
-
 	// region > injected services
 	// //////////////////////////////////////
 
