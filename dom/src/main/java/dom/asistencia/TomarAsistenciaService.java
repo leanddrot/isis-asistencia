@@ -10,6 +10,7 @@ import javax.jdo.annotations.Join;
 import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.annotation.ActionSemantics;
 import org.apache.isis.applib.annotation.Bookmarkable;
+import org.apache.isis.applib.annotation.Disabled;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberGroupLayout;
@@ -47,22 +48,33 @@ public class TomarAsistenciaService {
     @Bookmarkable
     @ActionSemantics(Of.SAFE)
     @MemberOrder(sequence = "2") 
-    public TomarAsistencia porCurso(@Named("Esquema") final Asistencia asistencia, 
+    public TomarAsistenciaView porCurso(@Named("Esquema") final Asistencia asistencia, 
     								@Named("Curso") Curso curso, 
     								@Named("Fecha") Date fecha){
     	int anio= curso.getAnio();
 		String division = curso.getDivision();
 		String asistenciaDescripcion = asistencia.getDescripcion();
+		//memento:
+    	//titulo, asistencia, fecha, anio, division, alumnoactivo
+    	String titulo = "Tomar asistencia";
+    	String fechaString = TraductorServicio.DateToString(fecha);
+		String mementoString = 	titulo + "," 
+								+ asistencia.getDescripcion() + "," 
+								+ fechaString + "," 
+								+ curso.getAnio() + "," 
+								+ curso.getDivision() + ","
+								+ "0";
 		
-		List<AsistenciaAlumno> lista = queryAsistenciaAlumnoPorCursoPorDia(
-										fecha, anio, division, asistenciaDescripcion);
+		System.out.println("");
+		System.out.println(mementoString);
+		System.out.println("");
 		
-		TomarAsistencia ta = container.newTransientInstance(TomarAsistencia.class);
-		ta.setAlumnoActivo(lista.get(0));
-		ta.setAsistenciAlumnos(lista);
-		container.persistIfNotAlready(ta);
 		
-		return ta;
+    	final TomarAsistenciaView tomarAsistenciaView = container.newViewModelInstance(TomarAsistenciaView.class, 
+    			mementoString);
+    	
+    	return tomarAsistenciaView;
+		
     }
 
 	public static List<AsistenciaAlumno> queryAsistenciaAlumnoPorCursoPorDia(
@@ -108,22 +120,7 @@ public class TomarAsistenciaService {
 		return "No existe asistencia creada para ese dia en este esquema de asistencia";
     }
     
-    @Named("Prueba ViewModel")
-    @Bookmarkable
-    @ActionSemantics(Of.SAFE)
-    @MemberOrder(sequence = "2") 
-    public TomarAsistenciaView porCurso(){
-    	
-    	//memento:
-    	//titulo, asistencia, fecha, anio, division, alumnoactivo
-    	
-    	final TomarAsistenciaView tomarAsistenciaView = container.newViewModelInstance(TomarAsistenciaView.class, 
-    			"Prueba,Esquema1,01-09-2014,1,A,0");
-    	
-    	return tomarAsistenciaView;
-    	
-    }
-    
+     
     
  // region > injected services
 	// //////////////////////////////////////
