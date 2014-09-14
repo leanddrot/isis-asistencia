@@ -43,7 +43,7 @@ import org.apache.isis.applib.annotation.Render;
 import org.apache.isis.applib.annotation.Render.Type;
 import org.apache.isis.applib.annotation.Where;
 
-@Named("TomarAsistenciaView")
+@Named("Tomar Asistencia View")
 @Bookmarkable
 @MemberGroupLayout(columnSpans = { 5, 0, 0, 7 })
 public class TomarAsistenciaView extends AbstractViewModel {
@@ -326,8 +326,6 @@ public class TomarAsistenciaView extends AbstractViewModel {
 
 	// }}
 	
-	
-
 	// region > injected services
 	@javax.inject.Inject
 	private DomainObjectContainer container;

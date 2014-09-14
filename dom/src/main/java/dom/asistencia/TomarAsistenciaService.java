@@ -21,7 +21,7 @@ import org.apache.isis.applib.annotation.ActionSemantics.Of;
 import org.apache.isis.applib.query.QueryDefault;
 
 
-@Named("TomarAsistencia")
+@Named("Tomar Asistencia")
 @DomainService(menuOrder = "80")
 public class TomarAsistenciaService {
 
@@ -56,7 +56,8 @@ public class TomarAsistenciaService {
 		String asistenciaDescripcion = asistencia.getDescripcion();
 		//memento:
     	//titulo, asistencia, fecha, anio, division, alumnoactivo
-    	String titulo = "Tomar asistencia";
+    	
+		String titulo = "Tomar asistencia";
     	String fechaString = TraductorServicio.DateToString(fecha);
 		String mementoString = 	titulo + "," 
 								+ asistencia.getDescripcion() + "," 
