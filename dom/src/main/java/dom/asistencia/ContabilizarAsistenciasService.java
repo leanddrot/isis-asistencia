@@ -35,9 +35,9 @@ public class ContabilizarAsistenciasService {
 	@PublishedAction
 	public ContabilizarAsistenciasView contarAsistenciasAlumno() {
 
-		// memento: titulo, anio, division, desde, hasta, indexAlumno
-
-		String mementoString = "el titulo,1,A,01-03-2014,31-12-2014,6";
+		// memento: asistencia, anio, division, desde, hasta, indexAlumno
+		//hardcode
+		String mementoString = "Esquema1,1,A,01-03-2014,31-12-2014,6";
 
 		return container.newViewModelInstance(
 				ContabilizarAsistenciasView.class, mementoString);
@@ -52,7 +52,7 @@ public class ContabilizarAsistenciasService {
 
 		// memento: titulo, anio, division, desde, hasta, indexAlumno
 
-		String mementoString = "Titulo,1,A,01-03-2014,31-12-2014,6";
+		String mementoString = "Esquema1,1,A,01-03-2014,31-12-2014,6";
 
 		return container.newViewModelInstance(
 				ContabilizarAsistenciasView.class, mementoString);

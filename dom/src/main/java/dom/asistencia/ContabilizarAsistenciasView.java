@@ -44,14 +44,15 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 		String[] parametros = memento.split(",");
 
-		title = parametros[0];
+		title = "Titulo";
+		setAsistencia(parametros[0]);
 		setAnio(parametros[1]);
 		setDivision(parametros[2]);
 		setDesde(parametros[3]);
 		setHasta(parametros[4]);
 		setIndice(Integer.parseInt(parametros[5]));
-		setprueba(container.newViewModelInstance(
-				AnalisisAsistenciaView.class, AnalisisAsistenciaService.analizarUnAlumno("w")));
+		//setprueba(container.newViewModelInstance(
+		//		AnalisisAsistenciaView.class, AnalisisAsistenciaService.analizarIntervaloAsistenciaAlumno("w")));
 		llenarListaAnalisis();
 
 	}
@@ -59,13 +60,17 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 	@Programmatic
 	private void llenarListaAnalisis() {
 
+		//memento asistencia, anio, curso, dni, fechadesde, fechahasta
+		
+		String mementoAnalisis ="Esquema1,1,A,15468659,01-03-2014,31-12-2014"; 
+
+		
 		List<AnalisisAsistenciaView> listaAnalisis = new ArrayList<AnalisisAsistenciaView>();
-		listaAnalisis.add(container.newViewModelInstance(AnalisisAsistenciaView.class, "m"));
-		listaAnalisis.add(container.newViewModelInstance(AnalisisAsistenciaView.class, "n"));
-		listaAnalisis.add(container.newViewModelInstance(AnalisisAsistenciaView.class, "o"));
-		listaAnalisis.add(container.newViewModelInstance(AnalisisAsistenciaView.class, "p"));
-		listaAnalisis.add(container.newViewModelInstance(AnalisisAsistenciaView.class, "q"));
-		listaAnalisis.add(container.newViewModelInstance(AnalisisAsistenciaView.class, "r"));
+			listaAnalisis.add(container.newViewModelInstance(
+				AnalisisAsistenciaView.class, AnalisisAsistenciaService.analizarIntervaloAsistenciaAlumno(mementoAnalisis)));		
+		
+		
+		
 		setAnalisisAsistenciaView(listaAnalisis);
 	}
 
@@ -88,7 +93,7 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 	// {{ Hasta (property)
 	private String hasta;
 
-	@MemberOrder(sequence = "4", name = "Intervalo")
+	@MemberOrder(sequence = "2", name = "Intervalo")
 	@Column(allowsNull = "true")
 	public String getHasta() {
 		return hasta;
@@ -145,6 +150,24 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 	// }}
 
+	
+	// {{ Asistencia (property)
+	private String asistencia;
+
+	@MemberOrder(sequence = "1", name = "Curso")
+	@Column(allowsNull = "true")
+	public String getAsistencia() {
+		return asistencia;
+	}
+
+	public void setAsistencia(final String asistencia) {
+		this.asistencia = asistencia;
+	}
+	// }}
+
+
+	
+	
 	// {{ AnalisisAsistenciaView (Collection Property)
 	// //////////////////////////////////////////
 
@@ -170,7 +193,7 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 	// {{ prueba (property)
 	private AnalisisAsistenciaView prueba;
 
-	@MemberOrder(sequence = "4", name = "Curso")
+	@MemberOrder(sequence = "4", name = "Intervalo")
 	@Column(allowsNull = "true")
 	public AnalisisAsistenciaView getprueba() {
 		return prueba;
