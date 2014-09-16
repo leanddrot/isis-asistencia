@@ -30,18 +30,20 @@ import org.apache.isis.applib.query.QueryDefault;
 			+ "order by this.alumno.apellido asc, this.alumno.nombre asc"),
 					
 	@javax.jdo.annotations.Query(name = "asistenciaAlumno_ContarAsistencias", language = "JDOQL", 
-		value = "SELECT FROM dom.asistencia.AsistenciaAlumno"
-			+ " WHERE this.alumno.curso.anio == :anio "
+		value = "SELECT FROM dom.asistencia.AsistenciaAlumno "
+			+ "WHERE this.asistenciaDia.asistencia.descripcion == :asistencia "
+			+ "&& this.alumno.curso.anio == :anio "
 			+ "&& this.alumno.curso.division == :division "
+			+ "&& this.asistenciaDia.fecha >= :desde "
+			+ "&& this.asistenciaDia.fecha <= :hasta "
+			+ "&& this.alumno.dni == :dni "),
 			
-			+ "&& this.asistenciaDia.asistencia.descripcion == :asistencia "
-			),
 	
 	@javax.jdo.annotations.Query(name = "asistenciaAlumno_ContarInasistencias", language = "JDOQL", 
 		value = "SELECT FROM count(dom.asistencia.AsistenciaAlumno)"
 			+ " WHERE this.alumno.curso.anio == :anio "
 			+ "&& this.alumno.curso.division == :division "
-			+ "&& this.alumno.curso.dni == :dni "
+			
 			+ "&& this.asistenciaDia.asistencia.descripcion == :asistencia "
 			+ "&& this.asistenciaDia.fecha >= :desde "
 			+ "&& this.asistenciaDia.fecha <= :hasta "
@@ -51,7 +53,7 @@ import org.apache.isis.applib.query.QueryDefault;
 		value = "SELECT FROM count(dom.asistencia.AsistenciaAlumno)"
 			+ " WHERE this.alumno.curso.anio == :anio "
 			+ "&& this.alumno.curso.division == :division "
-			+ "&& this.alumno.curso.dni == :dni "
+			+ "&& this.alumno.dni == :dni "
 			+ "&& this.asistenciaDia.asistencia.descripcion == :asistencia "
 			+ "&& this.asistenciaDia.fecha >= :desde "
 			+ "&& this.asistenciaDia.fecha <= :hasta "

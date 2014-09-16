@@ -78,16 +78,7 @@ public class TomarAsistenciaService {
 		
     }
 
-	public static List<AsistenciaAlumno> queryAsistenciaAlumnoPorCursoPorDia(
-			Date fecha, int anio, String division, String asistencia) {
-		return container.allMatches(new QueryDefault<AsistenciaAlumno>(
-				AsistenciaAlumno.class, "asistenciaAlumno_asistenciaDiaCurso", 
-				"anio", anio, 
-				"division", division,
-				"fecha", fecha,
-				"asistencia", asistencia
-				));
-	}
+	
     
     public List<Curso> choices1PorCurso (){
 		return container.allMatches(new QueryDefault<Curso>(
@@ -127,7 +118,7 @@ public class TomarAsistenciaService {
 	// //////////////////////////////////////
     
 	@javax.inject.Inject
-	static DomainObjectContainer container;
+	DomainObjectContainer container;
 	
 	
 	// endregion

@@ -101,7 +101,7 @@ public class TomarAsistenciaView extends AbstractViewModel {
 			String division, String fecha) throws ParseException {
 		int anioInt = Integer.parseInt(anio);
 		Date fechaDate = TraductorServicio.stringToDate(fecha);
-		setAsistenciAlumnos(TomarAsistenciaService
+		setAsistenciAlumnos(AsistenciaAlumnoRepositorio
 				.queryAsistenciaAlumnoPorCursoPorDia(fechaDate, anioInt,
 						division, asistencia));
 	}

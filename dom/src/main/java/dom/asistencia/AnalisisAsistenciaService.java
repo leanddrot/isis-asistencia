@@ -5,11 +5,13 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.isis.applib.DomainObjectContainer;
+import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.query.QueryDefault;
 
+@DomainService
 public class AnalisisAsistenciaService {
 
-	public static String analizarIntervaloAsistenciaAlumno(String memento) {
+	public static AnalisisAsistenciaView analizarIntervaloAsistenciaAlumno(String memento) {
 
 		// memento asistencia, anio, division, dni, fechadesde, fechahasta
 
@@ -38,41 +40,21 @@ public class AnalisisAsistenciaService {
 			e.printStackTrace();
 		}
 
-		System.out.println("");
-		System.out.println("");
-		System.out.println("desde = " + desdeDate + "  hasta = " + hastaDate);
-		System.out.println("anio= " + anioInt + "   division = " + division);
-		System.out.println("assitencia = " + asistencia + "   dni = " + dni);
-		System.out.println("");
-		System.out.println("");
-
 		
-//		List<AsistenciaAlumno> tempList = container.allMatches(new
-//		QueryDefault<AsistenciaAlumno>( AsistenciaAlumno.class,
-//		"asistenciaAlumno_ContarAsistencias", "anio", anio, "division",
-//		division, "desde", desdeDate, "hasta", hastaDate, "asistencia",
-//		asistencia, "dni", dni ));
-//		 
-//
-//		List<AsistenciaAlumno> tempList = container.allMatches(new QueryDefault<AsistenciaAlumno>(
-//				AsistenciaAlumno.class, "asistenciaAlumno_asistenciaDiaCurso", 
-//				"anio", anioInt, 
-//				"division", division,
-//				"fecha", desdeDate,
-//				"asistencia", asistencia
-//				));
-
-		
-		List<AsistenciaAlumno> tempList = TomarAsistenciaService
-		.queryAsistenciaAlumnoPorCursoPorDia(desdeDate, anioInt, division,
-		asistencia);
+		List<AsistenciaAlumno> tempList = AsistenciaAlumnoRepositorio
+		.queryAsistenciaAlumnoPorCursoEnUnIntervalo(	asistencia, 
+										anioInt, 
+										division, 
+										desdeDate, 
+										hastaDate, 
+										dni);
 		
 
 		int totalAsistencias = tempList.size();
 
-		// int totalAsistencias = 0;
-
-		return "total " + totalAsistencias;
+		String mementoAnalisis= "nombre" + totalAsistencias;
+		
+		return container.newViewModelInstance(AnalisisAsistenciaView.class, mementoAnalisis);
 	}
 
 	// region > injected services

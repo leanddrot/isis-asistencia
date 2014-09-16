@@ -51,8 +51,7 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 		setDesde(parametros[3]);
 		setHasta(parametros[4]);
 		setIndice(Integer.parseInt(parametros[5]));
-		//setprueba(container.newViewModelInstance(
-		//		AnalisisAsistenciaView.class, AnalisisAsistenciaService.analizarIntervaloAsistenciaAlumno("w")));
+		setprueba(AnalisisAsistenciaService.analizarIntervaloAsistenciaAlumno("Esquema1,1,A,15468659,01-03-2014,31-12-2014"));
 		llenarListaAnalisis();
 
 	}
@@ -62,12 +61,11 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 		//memento asistencia, anio, curso, dni, fechadesde, fechahasta
 		
-		String mementoAnalisis ="Esquema1,1,A,15468659,01-03-2014,31-12-2014"; 
+		String mementoAnalisis ="Esquema1,1,B,15468659,01-03-2014,31-12-2014"; 
 
 		
 		List<AnalisisAsistenciaView> listaAnalisis = new ArrayList<AnalisisAsistenciaView>();
-			listaAnalisis.add(container.newViewModelInstance(
-				AnalisisAsistenciaView.class, AnalisisAsistenciaService.analizarIntervaloAsistenciaAlumno(mementoAnalisis)));		
+			listaAnalisis.add(AnalisisAsistenciaService.analizarIntervaloAsistenciaAlumno(mementoAnalisis));		
 		
 		
 		
