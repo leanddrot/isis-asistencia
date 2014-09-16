@@ -44,14 +44,13 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 		String[] parametros = memento.split(",");
 
-		title = "Titulo";
+		title = "Estadísticas de Asistencia";
 		setAsistencia(parametros[0]);
 		setAnio(parametros[1]);
 		setDivision(parametros[2]);
 		setDesde(parametros[3]);
 		setHasta(parametros[4]);
 		setIndice(Integer.parseInt(parametros[5]));
-		setprueba(AnalisisAsistenciaService.analizarIntervaloAsistenciaAlumno("Esquema1,1,A,15468659,01-03-2014,31-12-2014"));
 		llenarListaAnalisis();
 
 	}
@@ -186,26 +185,9 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 	// }} (end region)
 	// //////////////////////////////////////
-
-
-	// {{ prueba (property)
-	private AnalisisAsistenciaView prueba;
-
-	@MemberOrder(sequence = "4", name = "Intervalo")
-	@Column(allowsNull = "true")
-	public AnalisisAsistenciaView getprueba() {
-		return prueba;
-	}
-
-	public void setprueba(final AnalisisAsistenciaView prueba) {
-		this.prueba = prueba;
-	}
-	// }}
-
-
-	
 	
 
+	
 	// region > injected services
 	@javax.inject.Inject
 	private DomainObjectContainer container;
