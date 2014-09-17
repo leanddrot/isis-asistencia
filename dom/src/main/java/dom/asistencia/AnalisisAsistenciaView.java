@@ -20,7 +20,31 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 	@Override
 	public void viewModelInit(String memento) {
 		this.memento = memento;
-		setNombre(memento);
+		
+		String[] parametros = memento.split(",");
+		
+		// 	memento= nombre,apellido,cantidadAsistencia,presente,tarde,ausente,
+		//	porcTarde,porcAusente,totalInasistencias
+		
+		setNombre(parametros[0]);
+		setApellido(parametros[1]);
+		setAsistenciasRegistradas(parametros[2]);
+		setPresente(parametros[3]);
+		
+		System.out.println("");
+		System.out.println("");
+		System.out.println(getPresente());
+		System.out.println("");
+		System.out.println("");
+		
+		
+		setTarde((parametros[4]));
+		setAusente((parametros[5]));
+		setPorcentajeTarde((parametros[6]));
+		setPorcentaje_ausente((parametros[7]));
+		setTotalFaltas((parametros[8]));
+		
+		
 		
 	}
 	
@@ -56,32 +80,32 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 	}
 	// }}
 
-	// {{ Total (property)
-	private int totalAsistencias;
+	// {{ AsistenciasRegistradas (property)
+	private String asistenciasRegistradas;
 
-	@Named("Asistencia")
+	@Named("Registros")
 	@MemberOrder(sequence = "3")
 	@Column(allowsNull = "true")
-	public int getTotal() {
-		return totalAsistencias;
+	public String getAsistenciasRegistradas() {
+		return asistenciasRegistradas;
 	}
 
-	public void setTotal(final int totalAsistencias) {
-		this.totalAsistencias = totalAsistencias;
+	public void setAsistenciasRegistradas(final String totalAsistencias) {
+		this.asistenciasRegistradas = totalAsistencias;
 	}
 	// }}
 
 	
 	// {{ Presente (property)
-	private int presente;
+	private String presente;
 
 	@MemberOrder(sequence = "4")
 	@Column(allowsNull = "true")
-	public int getPresente() {
+	public String getPresente() {
 		return presente;
 	}
 
-	public void setPresente(final int presente) {
+	public void setPresente(final String presente) {
 		this.presente = presente;
 	}
 	// }}
@@ -90,76 +114,76 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 	
 	
 	// {{ Tarde (property)
-	private int tarde;
+	private String tarde;
 
 	@MemberOrder(sequence = "5")
 	@Column(allowsNull = "true")
-	public int getTarde() {
+	public String getTarde() {
 		return tarde;
 	}
 
-	public void setTarde(final int tarde) {
+	public void setTarde(final String tarde) {
 		this.tarde = tarde;
 	}
 	// }}
 
 	
 	// {{ Ausente (property)
-	private int ausente;
+	private String ausente;
 
 	@MemberOrder(sequence = "6")
 	@Column(allowsNull = "true")
-	public int getAusente() {
+	public String getAusente() {
 		return ausente;
 	}
 
-	public void setAusente(final int ausente) {
+	public void setAusente(final String ausente) {
 		this.ausente = ausente;
 	}
 	// }}
 
 
 	// {{ Porcentaje_tarde (property)
-	private double porcentajeTarde;
+	private String porcentajeTarde;
 
 	@Named("Tarde %")
 	@MemberOrder(sequence = "7")
 	@Column(allowsNull = "true")
-	public double getPorcentajeTarde() {
+	public String getPorcentajeTarde() {
 		return porcentajeTarde;
 	}
 
-	public void setPorcentajeTarde(final double porcentajeTarde) {
+	public void setPorcentajeTarde(final String porcentajeTarde) {
 		this.porcentajeTarde = porcentajeTarde;
 	}
 	// }}
 
 	// {{ Porcentaje_ausente (property)
-	private double porcentajeAusente;
+	private String porcentajeAusente;
 
 	@Named("Ausente %")
 	@MemberOrder(sequence = "8")
 	@Column(allowsNull = "true")
-	public double getPorcentaje_ausente() {
+	public String getPorcentaje_ausente() {
 		return porcentajeAusente;
 	}
 
-	public void setPorcentaje_ausente(final double porcentajeAusente) {
+	public void setPorcentaje_ausente(final String porcentajeAusente) {
 		this.porcentajeAusente = porcentajeAusente;
 	}
 	// }}
 	
 	// {{ TotalFaltas (property)
-	private double totalFaltas;
+	private String totalFaltas;
 
 	@Named("Total Faltas")
 	@MemberOrder(sequence = "9")
 	@Column(allowsNull = "true")
-	public double getTotalFaltas() {
+	public String getTotalFaltas() {
 		return totalFaltas;
 	}
 
-	public void setTotalFaltas(final double totalFaltas) {
+	public void setTotalFaltas(final String totalFaltas) {
 		this.totalFaltas = totalFaltas;
 	}
 	// }}

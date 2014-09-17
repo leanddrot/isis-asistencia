@@ -105,11 +105,20 @@ public class AlumnoRepositorio {
 	public List<Alumno> listAlumnosDeUnCurso(final @Named("Curso") Curso curso) {
 		int anio = curso.getAnio();
 		String division = curso.getDivision();
-		return container.allMatches(new QueryDefault<Alumno>(Alumno.class,
-				"alumnosDeUnCurso", "anio", anio, "division", division));
-
+		return queryListarAlumnosDeUnCurso(anio, division);
 	}
 
+	// {{ queryListarAlumnosDeUnCurso (action)
+	@MemberOrder(sequence = "1")
+	public static List<Alumno> queryListarAlumnosDeUnCurso(final int anio, final String division) {
+		return container.allMatches(new QueryDefault<Alumno>(Alumno.class,
+				"alumnosDeUnCurso", "anio", anio, "division", division));
+	}
+	// }}
+
+
+	
+	
 	// endregion
 
 	// region > list Alumnos sin curso (action)

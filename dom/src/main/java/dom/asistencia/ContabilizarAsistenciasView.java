@@ -1,6 +1,9 @@
 package dom.asistencia;
 
+import java.io.ObjectInputStream.GetField;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.jdo.annotations.Column;
@@ -19,7 +22,9 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction;
 import org.apache.isis.applib.annotation.PublishedObject;
 import org.apache.isis.applib.annotation.Render;
+import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.annotation.Render.Type;
+import org.apache.isis.applib.annotation.TypicalLength;
 
 @Named("Contabilizar Asistencias View")
 @Bookmarkable
@@ -46,11 +51,20 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 		title = "Estadísticas de Asistencia";
 		setAsistencia(parametros[0]);
-		setAnio(parametros[1]);
+		setAnio(Integer.parseInt(parametros[1]));
 		setDivision(parametros[2]);
-		setDesde(parametros[3]);
-		setHasta(parametros[4]);
+		try {
+			setDesde(TraductorServicio.stringToDate(parametros[3]));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		try {
+			setHasta(TraductorServicio.stringToDate(parametros[4]));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		setIndice(Integer.parseInt(parametros[5]));
+		llenarAsistenciaAlumnoList();
 		llenarListaAnalisis();
 
 	}
@@ -58,60 +72,84 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 	@Programmatic
 	private void llenarListaAnalisis() {
 
-		//memento asistencia, anio, curso, dni, fechadesde, fechahasta
-		
-		String mementoAnalisis ="Esquema1,1,B,15468659,01-03-2014,31-12-2014"; 
-
-		
+		//memento asistencia, anio, curso, dni, nombre, apellido, fechadesde, fechahasta
 		List<AnalisisAsistenciaView> listaAnalisis = new ArrayList<AnalisisAsistenciaView>();
-			listaAnalisis.add(AnalisisAsistenciaService.analizarIntervaloAsistenciaAlumno(mementoAnalisis));		
 		
-		
+		String mementoAnalisis; 
+
+		for (Alumno alumno: getAlumnoList()){
+			
+			mementoAnalisis = 	getAsistencia() + "," +
+								getAnio() + "," +
+								getDivision()  + "," +
+								alumno.getDni() + "," +
+								alumno.getNombre() + "," +
+								alumno.getApellido() + "," +
+								TraductorServicio.DateToString(getDesde()) + "," +
+								TraductorServicio.DateToString(getHasta());
+			
+			
+			
+			listaAnalisis.add(
+					AnalisisAsistenciaService.analizarIntervaloAsistenciaAlumno(
+							mementoAnalisis));	
+					
+		}
 		
 		setAnalisisAsistenciaView(listaAnalisis);
 	}
+	
+	
+	@Programmatic
+	private void llenarAsistenciaAlumnoList() {
+		
+		setAlumnoList(AlumnoRepositorio.queryListarAlumnosDeUnCurso(getAnio(), getDivision()));
+	}
+	
 
 	// {{ Desde (property)
-	private String desde;
+	private Date desde;
 
 	
 	@MemberOrder(sequence = "1", name = "Intervalo" )
 	@Column(allowsNull = "true")
-	public String getDesde() {
+	public Date getDesde() {
 		return desde;
 	}
 
-	public void setDesde(final String desde) {
+	public void setDesde(final Date desde) {
 		this.desde = desde;
 	}
 
 	// }}
 
 	// {{ Hasta (property)
-	private String hasta;
+	private Date hasta;
 
 	@MemberOrder(sequence = "2", name = "Intervalo")
 	@Column(allowsNull = "true")
-	public String getHasta() {
+	public Date getHasta() {
 		return hasta;
 	}
 
-	public void setHasta(final String hasta) {
+	public void setHasta(final Date hasta) {
 		this.hasta = hasta;
 	}
 
 	// }}
 
 	// {{ Anio (property)
-	private String anio;
+	private int anio;
 
 	@MemberOrder(sequence = "2", name = "Curso")
 	@Column(allowsNull = "true")
-	public String getAnio() {
+	@TypicalLength(value = 5)
+	@Named("Año")
+	public int getAnio() {
 		return anio;
 	}
 
-	public void setAnio(final String anio) {
+	public void setAnio(final int anio) {
 		this.anio = anio;
 	}
 
@@ -122,6 +160,7 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 	@MemberOrder(sequence = "3", name = "Curso")
 	@Column(allowsNull = "true")
+	@TypicalLength(value = 5)
 	public String getDivision() {
 		return division;
 	}
@@ -185,6 +224,29 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 	// }} (end region)
 	// //////////////////////////////////////
+	
+	
+	// {{ AsistenciaAlumnoList (Collection Property)
+	// //////////////////////////////////////////
+	
+	
+	@Element(dependent = "false")
+	private List<Alumno> alumnoList = new ArrayList<Alumno>();
+
+	@Hidden
+	@Render(Type.EAGERLY)
+	@MemberOrder(sequence = "10")
+	public List<Alumno> getAlumnoList() {
+		return alumnoList;
+	}
+
+	public void setAlumnoList(final List<Alumno> alumnoList) {
+		this.alumnoList = alumnoList;
+	}
+
+	// }} (end region)
+	// //////////////////////////////////////
+	
 	
 
 	

@@ -5,8 +5,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.isis.applib.annotation.DomainService;
 
 
+@DomainService
 public class TraductorServicio {
 
 	

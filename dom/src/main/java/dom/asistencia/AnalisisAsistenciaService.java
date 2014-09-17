@@ -13,7 +13,7 @@ public class AnalisisAsistenciaService {
 
 	public static AnalisisAsistenciaView analizarIntervaloAsistenciaAlumno(String memento) {
 
-		// memento asistencia, anio, division, dni, fechadesde, fechahasta
+		// memento asistencia, anio, division, dni, , nombre, apellido, fechadesde, fechahasta
 
 		String[] parametros = memento.split(",");
 
@@ -23,8 +23,9 @@ public class AnalisisAsistenciaService {
 		int anioInt = Integer.parseInt(anio);
 		String division = (parametros[2]);
 		String dni = (parametros[3]);
-
-		String desde = parametros[4];
+		String nombre = parametros[4];
+		String apellido = parametros[5];
+		String desde = parametros[6];
 		Date desdeDate = null;
 		try {
 			desdeDate = TraductorServicio.stringToDate(desde);
@@ -32,7 +33,7 @@ public class AnalisisAsistenciaService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String hasta = parametros[5];
+		String hasta = parametros[7];
 		Date hastaDate = null;
 		try {
 			hastaDate = TraductorServicio.stringToDate(hasta);
@@ -49,11 +50,55 @@ public class AnalisisAsistenciaService {
 										hastaDate, 
 										dni);
 		
-
-		int totalAsistencias = tempList.size();
-
-		String mementoAnalisis= "nombre" + totalAsistencias;
+		// total asistencias
 		
+		int totalAsistencias = tempList.size();
+		
+		// total presente ausente tarde
+		
+		int presente = 0;
+		int ausente = 0; 
+		int tarde = 0;
+				
+		for (AsistenciaAlumno asistenciaAlumno : tempList){
+			if (asistenciaAlumno.getEstaPresente()){
+				presente++;
+			}
+			
+			if (!asistenciaAlumno.getEstaPresente() && !asistenciaAlumno.getLlegoTarde()){
+				ausente++;
+			}
+			
+			if (asistenciaAlumno.getLlegoTarde()){
+				tarde++;
+			}
+		}
+		
+		// porcentaje tarde ausente
+		
+		double porcentajeTarde = tarde * 100 / totalAsistencias;
+		double porcentajeAusente = ausente * 100 / totalAsistencias;
+		
+		//total inasistencias 
+		
+		double totalInasistencias = ausente + tarde / 2;
+		
+		
+		
+		
+		// 	memento= nombre,apellido,cantidadAsistencia,presente,tarde,ausente,
+		//	porcTarde,porcAusente,totalInasistencias
+		
+		String mementoAnalisis= nombre + "," + 
+								apellido  + "," + 
+								totalAsistencias  + "," +
+								presente  + "," +
+								tarde  + "," +
+								ausente  + "," +
+								porcentajeTarde  + "," +
+								porcentajeAusente  + "," +
+								totalInasistencias;
+								
 		return container.newViewModelInstance(AnalisisAsistenciaView.class, mementoAnalisis);
 	}
 
