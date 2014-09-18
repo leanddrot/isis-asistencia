@@ -2,6 +2,7 @@ package dom.asistencia;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -118,6 +119,43 @@ public class AnalisisAsistenciaService {
 								
 		return container.newViewModelInstance(AnalisisAsistenciaView.class, mementoAnalisis);
 	}
+	
+	
+	public static List<AnalisisAsistenciaView> analizarIntervaloAsistenciaCurso(
+																			String asistencia, 
+																			int anio, 
+																			String division, 
+																			Date desde, 
+																			Date hasta) {
+
+		// memento asistencia, anio, curso, dni, nombre, apellido, fechadesde,
+		// fechahasta
+		List<AnalisisAsistenciaView> listaAnalisis = new ArrayList<AnalisisAsistenciaView>();
+
+		String mementoAnalisis;
+
+		List<Alumno> alumnoList = AlumnoRepositorio.queryListarAlumnosDeUnCurso(anio,
+				division);
+			
+		for (Alumno alumno : alumnoList) {
+
+			mementoAnalisis = asistencia + "," + anio + ","
+					+ division + "," + alumno.getDni() + ","
+					+ alumno.getNombre() + "," + alumno.getApellido() + ","
+					+ TraductorServicio.DateToString(desde) + ","
+					+ TraductorServicio.DateToString(hasta);
+
+			listaAnalisis.add(analizarIntervaloAsistenciaAlumno(mementoAnalisis));
+
+		}
+
+		return listaAnalisis;
+	}
+	
+	
+	
+	
+	
 
 	// region > injected services
 	@javax.inject.Inject

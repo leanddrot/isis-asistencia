@@ -64,9 +64,15 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 			e.printStackTrace();
 		}
 		setIndice(Integer.parseInt(parametros[5]));
-		llenarAsistenciaAlumnoList();
-		llenarListaAnalisis();
-
+		//llenarAlumnoList();
+		//llenarListaAnalisis();
+		setAnalisisAsistenciaView(AnalisisAsistenciaService.analizarIntervaloAsistenciaCurso(	getAsistencia(), 
+																								getAnio(), 
+																								getDivision(), 
+																								getDesde(), 
+																								getHasta()
+																								));
+		
 	}
 
 	@Programmatic
@@ -95,7 +101,7 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 	}
 
 	@Programmatic
-	private void llenarAsistenciaAlumnoList() {
+	private void llenarAlumnoList() {
 
 		setAlumnoList(AlumnoRepositorio.queryListarAlumnosDeUnCurso(getAnio(),
 				getDivision()));
