@@ -31,24 +31,6 @@ public class ContabilizarAsistenciasService {
 
 	// endregion
 
-	// //Accion
-	// //////////
-
-//	@MemberOrder(sequence = "1")
-//	@PublishedAction
-//	public ContabilizarAsistenciasView contarAsistenciasAlumno() {
-//
-//		// memento: asistencia, anio, division, desde, hasta, indexAlumno
-//		// hardcode
-//		String mementoString = "Esquema1,1,A,01-03-2014,31-12-2014,6";
-//
-//		return container.newViewModelInstance(
-//				ContabilizarAsistenciasView.class, mementoString);
-//	}
-
-	// //Accion
-	// //////////
-
 	@MemberOrder(sequence = "2")
 	@PublishedAction
 	public ContabilizarAsistenciasView contarAsistenciasCurso(
@@ -57,37 +39,34 @@ public class ContabilizarAsistenciasService {
 
 		// memento: esquema, anio, division, desde, hasta
 
-		String mementoString = 	esquema.getDescripcion() + "," + 
-								curso.getAnio()	+ "," + 
-								curso.getDivision() + "," + 
-								TraductorServicio.DateToString(desde) + ","	+ 
-								TraductorServicio.DateToString(hasta) + ",-1";
+		String mementoString = esquema.getDescripcion() + "," + curso.getAnio()
+				+ "," + curso.getDivision() + ","
+				+ TraductorServicio.DateToString(desde) + ","
+				+ TraductorServicio.DateToString(hasta) + ",-1";
 
 		return container.newViewModelInstance(
 				ContabilizarAsistenciasView.class, mementoString);
 	}
 
-	public List<Asistencia> choices0ContarAsistenciasCurso(){
-		
+	public List<Asistencia> choices0ContarAsistenciasCurso() {
+
 		return container.allInstances(Asistencia.class);
 	}
-	
-	public Asistencia default0ContarAsistenciasCurso(){
-		
+
+	public Asistencia default0ContarAsistenciasCurso() {
+
 		return choices0ContarAsistenciasCurso().get(0);
 	}
-	
-	public List<Curso> choices1ContarAsistenciasCurso(){
-		
+
+	public List<Curso> choices1ContarAsistenciasCurso() {
+
 		return CursoRepositorio.querylistAll();
 	}
-	
-	public Curso default1ContarAsistenciasCurso(){
-		
+
+	public Curso default1ContarAsistenciasCurso() {
+
 		return choices1ContarAsistenciasCurso().get(0);
 	}
-	
-		
 
 	// region > injected services
 	// //////////////////////////////////////

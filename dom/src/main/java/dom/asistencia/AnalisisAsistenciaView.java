@@ -6,12 +6,10 @@ import org.apache.isis.applib.AbstractViewModel;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Named;
 
-
-
-public class AnalisisAsistenciaView extends AbstractViewModel{
+public class AnalisisAsistenciaView extends AbstractViewModel {
 
 	String memento;
-	
+
 	@Override
 	public String viewModelMemento() {
 		return memento;
@@ -20,38 +18,35 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 	@Override
 	public void viewModelInit(String memento) {
 		this.memento = memento;
-		
+
 		String[] parametros = memento.split(",");
-		
-		// 	memento= nombre,apellido,cantidadAsistencia,presente,tarde,ausente,
-		//	porcTarde,porcAusente,totalInasistencias
-		
+
+		// memento= nombre,apellido,cantidadAsistencia,presente,tarde,ausente,
+		// porcTarde,porcAusente,totalInasistencias
+
 		setNombre(parametros[0]);
 		setApellido(parametros[1]);
 		setAsistenciasRegistradas(parametros[2]);
 		setPresente(parametros[3]);
-		
+
 		System.out.println("");
 		System.out.println("");
 		System.out.println(getPresente());
 		System.out.println("");
 		System.out.println("");
-		
-		
+
 		setTarde((parametros[4]));
 		setAusente((parametros[5]));
 		setPorcentajeTarde((parametros[6]));
 		setPorcentaje_ausente((parametros[7]));
 		setTotalFaltas((parametros[8]));
-		
-		
-		
+
 	}
-	
-	public String title(){
+
+	public String title() {
 		return memento;
 	}
-	
+
 	// {{ Nombre (property)
 	private String nombre;
 
@@ -64,6 +59,7 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 	public void setNombre(final String nombre) {
 		this.nombre = nombre;
 	}
+
 	// }}
 
 	// {{ Apellido (property)
@@ -78,6 +74,7 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 	public void setApellido(final String apellido) {
 		this.apellido = apellido;
 	}
+
 	// }}
 
 	// {{ AsistenciasRegistradas (property)
@@ -93,9 +90,9 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 	public void setAsistenciasRegistradas(final String totalAsistencias) {
 		this.asistenciasRegistradas = totalAsistencias;
 	}
+
 	// }}
 
-	
 	// {{ Presente (property)
 	private String presente;
 
@@ -108,11 +105,9 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 	public void setPresente(final String presente) {
 		this.presente = presente;
 	}
+
 	// }}
 
-
-	
-	
 	// {{ Tarde (property)
 	private String tarde;
 
@@ -125,9 +120,9 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 	public void setTarde(final String tarde) {
 		this.tarde = tarde;
 	}
+
 	// }}
 
-	
 	// {{ Ausente (property)
 	private String ausente;
 
@@ -140,8 +135,8 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 	public void setAusente(final String ausente) {
 		this.ausente = ausente;
 	}
-	// }}
 
+	// }}
 
 	// {{ Porcentaje_tarde (property)
 	private String porcentajeTarde;
@@ -156,6 +151,7 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 	public void setPorcentajeTarde(final String porcentajeTarde) {
 		this.porcentajeTarde = porcentajeTarde;
 	}
+
 	// }}
 
 	// {{ Porcentaje_ausente (property)
@@ -171,8 +167,9 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 	public void setPorcentaje_ausente(final String porcentajeAusente) {
 		this.porcentajeAusente = porcentajeAusente;
 	}
+
 	// }}
-	
+
 	// {{ TotalFaltas (property)
 	private String totalFaltas;
 
@@ -187,12 +184,5 @@ public class AnalisisAsistenciaView extends AbstractViewModel{
 		this.totalFaltas = totalFaltas;
 	}
 	// }}
-
-
-
-	
-
-
-
 
 }

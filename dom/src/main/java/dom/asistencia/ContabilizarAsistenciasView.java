@@ -64,47 +64,11 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 			e.printStackTrace();
 		}
 		setIndice(Integer.parseInt(parametros[5]));
-		//llenarAlumnoList();
-		//llenarListaAnalisis();
-		setAnalisisAsistenciaView(AnalisisAsistenciaService.analizarIntervaloAsistenciaCurso(	getAsistencia(), 
-																								getAnio(), 
-																								getDivision(), 
-																								getDesde(), 
-																								getHasta()
-																								));
-		
-	}
 
-	@Programmatic
-	private void llenarListaAnalisis() {
+		setAnalisisAsistenciaView(AnalisisAsistenciaService
+				.analizarIntervaloAsistenciaCurso(getAsistencia(), getAnio(),
+						getDivision(), getDesde(), getHasta()));
 
-		// memento asistencia, anio, curso, dni, nombre, apellido, fechadesde,
-		// fechahasta
-		List<AnalisisAsistenciaView> listaAnalisis = new ArrayList<AnalisisAsistenciaView>();
-
-		String mementoAnalisis;
-
-		for (Alumno alumno : getAlumnoList()) {
-
-			mementoAnalisis = getAsistencia() + "," + getAnio() + ","
-					+ getDivision() + "," + alumno.getDni() + ","
-					+ alumno.getNombre() + "," + alumno.getApellido() + ","
-					+ TraductorServicio.DateToString(getDesde()) + ","
-					+ TraductorServicio.DateToString(getHasta());
-
-			listaAnalisis.add(AnalisisAsistenciaService
-					.analizarIntervaloAsistenciaAlumno(mementoAnalisis));
-
-		}
-
-		setAnalisisAsistenciaView(listaAnalisis);
-	}
-
-	@Programmatic
-	private void llenarAlumnoList() {
-
-		setAlumnoList(AlumnoRepositorio.queryListarAlumnosDeUnCurso(getAnio(),
-				getDivision()));
 	}
 
 	// {{ Desde (property)
@@ -221,31 +185,5 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 	// }} (end region)
 	// //////////////////////////////////////
-
-	// {{ AsistenciaAlumnoList (Collection Property)
-	// //////////////////////////////////////////
-
-	@Element(dependent = "false")
-	private List<Alumno> alumnoList = new ArrayList<Alumno>();
-
-	@Hidden
-	@Render(Type.EAGERLY)
-	@MemberOrder(sequence = "10")
-	public List<Alumno> getAlumnoList() {
-		return alumnoList;
-	}
-
-	public void setAlumnoList(final List<Alumno> alumnoList) {
-		this.alumnoList = alumnoList;
-	}
-
-	// }} (end region)
-	// //////////////////////////////////////
-
-	// region > injected services
-	@javax.inject.Inject
-	private DomainObjectContainer container;
-
-	// endregion
 
 }

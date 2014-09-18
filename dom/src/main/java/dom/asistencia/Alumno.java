@@ -10,22 +10,16 @@ import org.apache.isis.applib.annotation.ObjectType;
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
-@javax.jdo.annotations.Queries({ 
-	@javax.jdo.annotations.Query(name = "alumnosSinCurso", 
-			language = "JDOQL", 
-			value = "SELECT FROM dom.asistencia.Alumno"
-					+" WHERE this.curso == null"),
-	@javax.jdo.annotations.Query(name = "alumnosDeUnCurso", 
-			language = "JDOQL", 
-			value = "SELECT FROM dom.asistencia.Alumno"
-					+" WHERE this.curso.anio == :anio"
-					+" && this.curso.division == :division"),
-	@javax.jdo.annotations.Query(name = "alumnosOrdenadosPorCurso", 
-			language = "JDOQL", 
-			value = "SELECT FROM dom.asistencia.Alumno"
-					+" order by this.curso.anio asc, this.curso.division asc")
+@javax.jdo.annotations.Queries({
+		@javax.jdo.annotations.Query(name = "alumnosSinCurso", language = "JDOQL", value = "SELECT FROM dom.asistencia.Alumno"
+				+ " WHERE this.curso == null"),
+		@javax.jdo.annotations.Query(name = "alumnosDeUnCurso", language = "JDOQL", value = "SELECT FROM dom.asistencia.Alumno"
+				+ " WHERE this.curso.anio == :anio"
+				+ " && this.curso.division == :division"),
+		@javax.jdo.annotations.Query(name = "alumnosOrdenadosPorCurso", language = "JDOQL", value = "SELECT FROM dom.asistencia.Alumno"
+				+ " order by this.curso.anio asc, this.curso.division asc")
 
-	})
+})
 @ObjectType("alumno")
 @Bounded
 public class Alumno {

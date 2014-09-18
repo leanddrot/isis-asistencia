@@ -21,27 +21,24 @@ import org.apache.isis.applib.query.QueryDefault;
 @javax.jdo.annotations.DatastoreIdentity(strategy = javax.jdo.annotations.IdGeneratorStrategy.IDENTITY, column = "id")
 @javax.jdo.annotations.Version(strategy = VersionStrategy.VERSION_NUMBER, column = "version")
 @javax.jdo.annotations.Queries({
-	@javax.jdo.annotations.Query(name = "asistenciaAlumno_asistenciaDiaCurso", language = "JDOQL", 
-		value = "SELECT FROM dom.asistencia.AsistenciaAlumno"
-			+ " WHERE this.alumno.curso.anio == :anio "
-			+ "&& this.alumno.curso.division == :division "
-			+ "&& this.asistenciaDia.fecha == :fecha "
-			+ "&& this.asistenciaDia.asistencia.descripcion == :asistencia "
-			+ "order by this.alumno.apellido asc, this.alumno.nombre asc"),
-					
-	@javax.jdo.annotations.Query(name = "asistenciaAlumno_ContarAsistencias", language = "JDOQL", 
-		value = "SELECT FROM dom.asistencia.AsistenciaAlumno "
-			+ "WHERE this.asistenciaDia.asistencia.descripcion == :asistencia "
-			+ "&& this.alumno.curso.anio == :anio "
-			+ "&& this.alumno.curso.division == :division "
-			+ "&& this.asistenciaDia.fecha >= :desde "
-			+ "&& this.asistenciaDia.fecha <= :hasta "
-			+ "&& this.alumno.dni == :dni ")
-	
-})
+		@javax.jdo.annotations.Query(name = "asistenciaAlumno_asistenciaDiaCurso", language = "JDOQL", value = "SELECT FROM dom.asistencia.AsistenciaAlumno"
+				+ " WHERE this.alumno.curso.anio == :anio "
+				+ "&& this.alumno.curso.division == :division "
+				+ "&& this.asistenciaDia.fecha == :fecha "
+				+ "&& this.asistenciaDia.asistencia.descripcion == :asistencia "
+				+ "order by this.alumno.apellido asc, this.alumno.nombre asc"),
 
+		@javax.jdo.annotations.Query(name = "asistenciaAlumno_ContarAsistencias", language = "JDOQL", value = "SELECT FROM dom.asistencia.AsistenciaAlumno "
+				+ "WHERE this.asistenciaDia.asistencia.descripcion == :asistencia "
+				+ "&& this.alumno.curso.anio == :anio "
+				+ "&& this.alumno.curso.division == :division "
+				+ "&& this.asistenciaDia.fecha >= :desde "
+				+ "&& this.asistenciaDia.fecha <= :hasta "
+				+ "&& this.alumno.dni == :dni ")
+
+})
 @Bounded
-@MemberGroupLayout(columnSpans = {6,0,0,0})
+@MemberGroupLayout(columnSpans = { 6, 0, 0, 0 })
 public class AsistenciaAlumno {
 
 	// {{ AsistenciaDia (property)
@@ -56,8 +53,8 @@ public class AsistenciaAlumno {
 	public void setAsistenciaDia(final AsistenciaDia asistenciaDia) {
 		this.asistenciaDia = asistenciaDia;
 	}
-	// }}
 
+	// }}
 
 	// {{ Alumno (property)
 	private Alumno alumno;
@@ -77,6 +74,7 @@ public class AsistenciaAlumno {
 
 	// {{ EstaPresente (property)
 	private boolean estaPresente;
+
 	@Disabled
 	@MemberOrder(sequence = "2")
 	@javax.jdo.annotations.Column(allowsNull = "false", defaultValue = "false")
@@ -92,6 +90,7 @@ public class AsistenciaAlumno {
 
 	// {{ LlegoTarde (property)
 	private boolean llegoTarde;
+
 	@Disabled
 	@MemberOrder(sequence = "3")
 	@javax.jdo.annotations.Column(allowsNull = "false", defaultValue = "false")
@@ -129,19 +128,16 @@ public class AsistenciaAlumno {
 	}
 
 	// {{ marcarAusente (action)
-		@MemberOrder(sequence = "3", name = "llegoTarde")
-		public AsistenciaAlumno marcarAusente() {
-			setEstaPresente(false);
-			setLlegoTarde(false);
+	@MemberOrder(sequence = "3", name = "llegoTarde")
+	public AsistenciaAlumno marcarAusente() {
+		setEstaPresente(false);
+		setLlegoTarde(false);
 
-			return this;
-		}
+		return this;
+	}
 
-	
-	
 	// }}
 
-		
 	// region > injected services
 	// //////////////////////////////////////
 

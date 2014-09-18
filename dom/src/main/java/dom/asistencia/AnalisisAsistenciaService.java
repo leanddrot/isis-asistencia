@@ -13,9 +13,11 @@ import org.apache.isis.applib.query.QueryDefault;
 @DomainService
 public class AnalisisAsistenciaService {
 
-	public static AnalisisAsistenciaView analizarIntervaloAsistenciaAlumno(String memento) {
+	public static AnalisisAsistenciaView analizarIntervaloAsistenciaAlumno(
+			String memento) {
 
-		// memento asistencia, anio, division, dni, , nombre, apellido, fechadesde, fechahasta
+		// memento asistencia, anio, division, dni, , nombre, apellido,
+		// fechadesde, fechahasta
 
 		String[] parametros = memento.split(",");
 
@@ -43,90 +45,78 @@ public class AnalisisAsistenciaService {
 			e.printStackTrace();
 		}
 
-		
 		List<AsistenciaAlumno> tempList = AsistenciaAlumnoRepositorio
-		.queryAsistenciaAlumnoPorCursoEnUnIntervalo(	asistencia, 
-										anioInt, 
-										division, 
-										desdeDate, 
-										hastaDate, 
-										dni);
-		
+				.queryAsistenciaAlumnoPorCursoEnUnIntervalo(asistencia,
+						anioInt, division, desdeDate, hastaDate, dni);
+
 		// total asistencias
-		
+
 		int totalAsistencias = tempList.size();
-		
+
 		// total presente ausente tarde
-		
+
 		int presente = 0;
-		int ausente = 0; 
+		int ausente = 0;
 		int tarde = 0;
-				
-		for (AsistenciaAlumno asistenciaAlumno : tempList){
-			if (asistenciaAlumno.getEstaPresente()){
+
+		for (AsistenciaAlumno asistenciaAlumno : tempList) {
+			if (asistenciaAlumno.getEstaPresente()) {
 				presente++;
 			}
-			
-			if (!asistenciaAlumno.getEstaPresente() && !asistenciaAlumno.getLlegoTarde()){
+
+			if (!asistenciaAlumno.getEstaPresente()
+					&& !asistenciaAlumno.getLlegoTarde()) {
 				ausente++;
 			}
-			
-			if (asistenciaAlumno.getLlegoTarde()){
+
+			if (asistenciaAlumno.getLlegoTarde()) {
 				tarde++;
 			}
 		}
-		
+
 		// porcentaje tarde ausente
-	
+
 		BigDecimal porcentajeTarde;
 		BigDecimal porcentajeAusente;
-		BigDecimal tardeBD=new BigDecimal(tarde);
-		BigDecimal ausenteBD=new BigDecimal (ausente);
-		
-		if (totalAsistencias != 0){
-			
-			porcentajeTarde= tardeBD.multiply(new BigDecimal(100)).divide(new BigDecimal(totalAsistencias),2,BigDecimal.ROUND_HALF_UP);
-			porcentajeAusente= ausenteBD.multiply(new BigDecimal(100)).divide(new BigDecimal(totalAsistencias),2,BigDecimal.ROUND_HALF_UP);
+		BigDecimal tardeBD = new BigDecimal(tarde);
+		BigDecimal ausenteBD = new BigDecimal(ausente);
+
+		if (totalAsistencias != 0) {
+
+			porcentajeTarde = tardeBD.multiply(new BigDecimal(100)).divide(
+					new BigDecimal(totalAsistencias), 2,
+					BigDecimal.ROUND_HALF_UP);
+			porcentajeAusente = ausenteBD.multiply(new BigDecimal(100)).divide(
+					new BigDecimal(totalAsistencias), 2,
+					BigDecimal.ROUND_HALF_UP);
+		} else {
+			porcentajeTarde = new BigDecimal(0);
+			porcentajeAusente = new BigDecimal(0);
 		}
-		else{
-			porcentajeTarde= new BigDecimal(0);
-			porcentajeAusente=  new BigDecimal(0);
-		}
-		
-//		double porcentajeTarde = tarde * 100 / totalAsistencias;
-//		double porcentajeAusente = ausente * 100 / totalAsistencias;
-		
-		//total inasistencias 
-		
-		BigDecimal mediaFalta = tardeBD.divide(new BigDecimal(2),1,BigDecimal.ROUND_HALF_UP);	
+
+		// double porcentajeTarde = tarde * 100 / totalAsistencias;
+		// double porcentajeAusente = ausente * 100 / totalAsistencias;
+
+		// total inasistencias
+
+		BigDecimal mediaFalta = tardeBD.divide(new BigDecimal(2), 1,
+				BigDecimal.ROUND_HALF_UP);
 		BigDecimal totalInasistencias = new BigDecimal(ausente).add(mediaFalta);
-		
-		
-		
-		
-		// 	memento= nombre,apellido,cantidadAsistencia,presente,tarde,ausente,
-		//	porcTarde,porcAusente,totalInasistencias
-		
-		String mementoAnalisis= nombre + "," + 
-								apellido  + "," + 
-								totalAsistencias  + "," +
-								presente  + "," +
-								tarde  + "," +
-								ausente  + "," +
-								porcentajeTarde  + "," +
-								porcentajeAusente  + "," +
-								totalInasistencias;
-								
-		return container.newViewModelInstance(AnalisisAsistenciaView.class, mementoAnalisis);
+
+		// memento= nombre,apellido,cantidadAsistencia,presente,tarde,ausente,
+		// porcTarde,porcAusente,totalInasistencias
+
+		String mementoAnalisis = nombre + "," + apellido + ","
+				+ totalAsistencias + "," + presente + "," + tarde + ","
+				+ ausente + "," + porcentajeTarde + "," + porcentajeAusente
+				+ "," + totalInasistencias;
+
+		return container.newViewModelInstance(AnalisisAsistenciaView.class,
+				mementoAnalisis);
 	}
-	
-	
+
 	public static List<AnalisisAsistenciaView> analizarIntervaloAsistenciaCurso(
-																			String asistencia, 
-																			int anio, 
-																			String division, 
-																			Date desde, 
-																			Date hasta) {
+			String asistencia, int anio, String division, Date desde, Date hasta) {
 
 		// memento asistencia, anio, curso, dni, nombre, apellido, fechadesde,
 		// fechahasta
@@ -134,28 +124,24 @@ public class AnalisisAsistenciaService {
 
 		String mementoAnalisis;
 
-		List<Alumno> alumnoList = AlumnoRepositorio.queryListarAlumnosDeUnCurso(anio,
-				division);
-			
+		List<Alumno> alumnoList = AlumnoRepositorio
+				.queryListarAlumnosDeUnCurso(anio, division);
+
 		for (Alumno alumno : alumnoList) {
 
-			mementoAnalisis = asistencia + "," + anio + ","
-					+ division + "," + alumno.getDni() + ","
-					+ alumno.getNombre() + "," + alumno.getApellido() + ","
+			mementoAnalisis = asistencia + "," + anio + "," + division + ","
+					+ alumno.getDni() + "," + alumno.getNombre() + ","
+					+ alumno.getApellido() + ","
 					+ TraductorServicio.DateToString(desde) + ","
 					+ TraductorServicio.DateToString(hasta);
 
-			listaAnalisis.add(analizarIntervaloAsistenciaAlumno(mementoAnalisis));
+			listaAnalisis
+					.add(analizarIntervaloAsistenciaAlumno(mementoAnalisis));
 
 		}
 
 		return listaAnalisis;
 	}
-	
-	
-	
-	
-	
 
 	// region > injected services
 	@javax.inject.Inject
