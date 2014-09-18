@@ -34,17 +34,17 @@ public class ContabilizarAsistenciasService {
 	// //Accion
 	// //////////
 
-	@MemberOrder(sequence = "1")
-	@PublishedAction
-	public ContabilizarAsistenciasView contarAsistenciasAlumno() {
-
-		// memento: asistencia, anio, division, desde, hasta, indexAlumno
-		// hardcode
-		String mementoString = "Esquema1,1,A,01-03-2014,31-12-2014,6";
-
-		return container.newViewModelInstance(
-				ContabilizarAsistenciasView.class, mementoString);
-	}
+//	@MemberOrder(sequence = "1")
+//	@PublishedAction
+//	public ContabilizarAsistenciasView contarAsistenciasAlumno() {
+//
+//		// memento: asistencia, anio, division, desde, hasta, indexAlumno
+//		// hardcode
+//		String mementoString = "Esquema1,1,A,01-03-2014,31-12-2014,6";
+//
+//		return container.newViewModelInstance(
+//				ContabilizarAsistenciasView.class, mementoString);
+//	}
 
 	// //Accion
 	// //////////
@@ -55,7 +55,7 @@ public class ContabilizarAsistenciasService {
 			@Named("Esquema") Asistencia esquema, @Named("Curso") Curso curso,
 			@Named("Desde") Date desde, @Named("Hasta") Date hasta) {
 
-		// memento: esquema, anio, division, desde, hasta, indexAlumno
+		// memento: esquema, anio, division, desde, hasta
 
 		String mementoString = 	esquema.getDescripcion() + "," + 
 								curso.getAnio()	+ "," + 
@@ -87,19 +87,7 @@ public class ContabilizarAsistenciasService {
 		return choices1ContarAsistenciasCurso().get(0);
 	}
 	
-	
-	
-	@MemberOrder(sequence = "3")
-	@PublishedAction
-	public List<AsistenciaAlumno> pruebaListadoAsistenciaAlumno(
-			@Named("Esquema") String asistencia, @Named("Año") int anio,
-			@Named("División") String division, @Named("Desde") Date desde,
-			@Named("Hasta") Date hasta, @Named("DNI") String dni) {
-
-		return AsistenciaAlumnoRepositorio
-				.queryAsistenciaAlumnoPorCursoEnUnIntervalo(asistencia, anio,
-						division, desde, hasta, dni);
-	}
+		
 
 	// region > injected services
 	// //////////////////////////////////////

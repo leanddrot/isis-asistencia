@@ -1,5 +1,6 @@
 package dom.asistencia;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -75,13 +76,29 @@ public class AnalisisAsistenciaService {
 		}
 		
 		// porcentaje tarde ausente
+	
+		BigDecimal porcentajeTarde;
+		BigDecimal porcentajeAusente;
+		BigDecimal tardeBD=new BigDecimal(tarde);
+		BigDecimal ausenteBD=new BigDecimal (ausente);
 		
-		double porcentajeTarde = tarde * 100 / totalAsistencias;
-		double porcentajeAusente = ausente * 100 / totalAsistencias;
+		if (totalAsistencias != 0){
+			
+			porcentajeTarde= tardeBD.multiply(new BigDecimal(100)).divide(new BigDecimal(totalAsistencias),2,BigDecimal.ROUND_HALF_UP);
+			porcentajeAusente= ausenteBD.multiply(new BigDecimal(100)).divide(new BigDecimal(totalAsistencias),2,BigDecimal.ROUND_HALF_UP);
+		}
+		else{
+			porcentajeTarde= new BigDecimal(0);
+			porcentajeAusente=  new BigDecimal(0);
+		}
+		
+//		double porcentajeTarde = tarde * 100 / totalAsistencias;
+//		double porcentajeAusente = ausente * 100 / totalAsistencias;
 		
 		//total inasistencias 
 		
-		double totalInasistencias = ausente + tarde / 2;
+		BigDecimal mediaFalta = tardeBD.divide(new BigDecimal(2),1,BigDecimal.ROUND_HALF_UP);	
+		BigDecimal totalInasistencias = new BigDecimal(ausente).add(mediaFalta);
 		
 		
 		

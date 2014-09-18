@@ -213,6 +213,7 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 	@Render(Type.EAGERLY)
 	@MemberOrder(sequence = "1")
+	@Named("Analisis de Asistencia por Alumno")
 	public List<AnalisisAsistenciaView> getAnalisisAsistenciaView() {
 		return analisisAsistenciaList;
 	}
