@@ -36,28 +36,8 @@ import org.apache.isis.applib.query.QueryDefault;
 			+ "&& this.alumno.curso.division == :division "
 			+ "&& this.asistenciaDia.fecha >= :desde "
 			+ "&& this.asistenciaDia.fecha <= :hasta "
-			+ "&& this.alumno.dni == :dni "),
-			
+			+ "&& this.alumno.dni == :dni ")
 	
-	@javax.jdo.annotations.Query(name = "asistenciaAlumno_ContarInasistencias", language = "JDOQL", 
-		value = "SELECT FROM count(dom.asistencia.AsistenciaAlumno)"
-			+ " WHERE this.alumno.curso.anio == :anio "
-			+ "&& this.alumno.curso.division == :division "
-			
-			+ "&& this.asistenciaDia.asistencia.descripcion == :asistencia "
-			+ "&& this.asistenciaDia.fecha >= :desde "
-			+ "&& this.asistenciaDia.fecha <= :hasta "
-			+ "&& this.estaPresente == false"),
-	
-	@javax.jdo.annotations.Query(name = "asistenciaAlumno_ContarInasistencias", language = "JDOQL", 
-		value = "SELECT FROM count(dom.asistencia.AsistenciaAlumno)"
-			+ " WHERE this.alumno.curso.anio == :anio "
-			+ "&& this.alumno.curso.division == :division "
-			+ "&& this.alumno.dni == :dni "
-			+ "&& this.asistenciaDia.asistencia.descripcion == :asistencia "
-			+ "&& this.asistenciaDia.fecha >= :desde "
-			+ "&& this.asistenciaDia.fecha <= :hasta "
-			+ "&& this.llegoTarde == true")
 })
 
 @Bounded

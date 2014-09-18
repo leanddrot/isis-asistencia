@@ -28,7 +28,7 @@ import org.apache.isis.applib.annotation.TypicalLength;
 
 @Named("Contabilizar Asistencias View")
 @Bookmarkable
-@MemberGroupLayout(columnSpans = {6, 0, 6, 12 }, right = "Intervalo", left = "Curso")
+@MemberGroupLayout(columnSpans = { 6, 0, 6, 12 }, right = "Intervalo", left = "Curso")
 public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 	String memento;
@@ -72,46 +72,39 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 	@Programmatic
 	private void llenarListaAnalisis() {
 
-		//memento asistencia, anio, curso, dni, nombre, apellido, fechadesde, fechahasta
+		// memento asistencia, anio, curso, dni, nombre, apellido, fechadesde,
+		// fechahasta
 		List<AnalisisAsistenciaView> listaAnalisis = new ArrayList<AnalisisAsistenciaView>();
-		
-		String mementoAnalisis; 
 
-		for (Alumno alumno: getAlumnoList()){
-			
-			mementoAnalisis = 	getAsistencia() + "," +
-								getAnio() + "," +
-								getDivision()  + "," +
-								alumno.getDni() + "," +
-								alumno.getNombre() + "," +
-								alumno.getApellido() + "," +
-								TraductorServicio.DateToString(getDesde()) + "," +
-								TraductorServicio.DateToString(getHasta());
-			
-			
-			
-			listaAnalisis.add(
-					AnalisisAsistenciaService.analizarIntervaloAsistenciaAlumno(
-							mementoAnalisis));	
-					
+		String mementoAnalisis;
+
+		for (Alumno alumno : getAlumnoList()) {
+
+			mementoAnalisis = getAsistencia() + "," + getAnio() + ","
+					+ getDivision() + "," + alumno.getDni() + ","
+					+ alumno.getNombre() + "," + alumno.getApellido() + ","
+					+ TraductorServicio.DateToString(getDesde()) + ","
+					+ TraductorServicio.DateToString(getHasta());
+
+			listaAnalisis.add(AnalisisAsistenciaService
+					.analizarIntervaloAsistenciaAlumno(mementoAnalisis));
+
 		}
-		
+
 		setAnalisisAsistenciaView(listaAnalisis);
 	}
-	
-	
+
 	@Programmatic
 	private void llenarAsistenciaAlumnoList() {
-		
-		setAlumnoList(AlumnoRepositorio.queryListarAlumnosDeUnCurso(getAnio(), getDivision()));
+
+		setAlumnoList(AlumnoRepositorio.queryListarAlumnosDeUnCurso(getAnio(),
+				getDivision()));
 	}
-	
 
 	// {{ Desde (property)
 	private Date desde;
 
-	
-	@MemberOrder(sequence = "1", name = "Intervalo" )
+	@MemberOrder(sequence = "1", name = "Intervalo")
 	@Column(allowsNull = "true")
 	public Date getDesde() {
 		return desde;
@@ -186,7 +179,6 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 	// }}
 
-	
 	// {{ Asistencia (property)
 	private String asistencia;
 
@@ -199,11 +191,9 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 	public void setAsistencia(final String asistencia) {
 		this.asistencia = asistencia;
 	}
+
 	// }}
 
-
-	
-	
 	// {{ AnalisisAsistenciaView (Collection Property)
 	// //////////////////////////////////////////
 
@@ -225,12 +215,10 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 	// }} (end region)
 	// //////////////////////////////////////
-	
-	
+
 	// {{ AsistenciaAlumnoList (Collection Property)
 	// //////////////////////////////////////////
-	
-	
+
 	@Element(dependent = "false")
 	private List<Alumno> alumnoList = new ArrayList<Alumno>();
 
@@ -247,14 +235,11 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 
 	// }} (end region)
 	// //////////////////////////////////////
-	
-	
 
-	
 	// region > injected services
 	@javax.inject.Inject
 	private DomainObjectContainer container;
-	
+
 	// endregion
-	
+
 }
