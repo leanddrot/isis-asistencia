@@ -32,7 +32,7 @@ public class AnalisisAsistenciaService {
 		String desde = parametros[6];
 		Date desdeDate = null;
 		try {
-			desdeDate = TraductorServicio.stringToDate(desde);
+			desdeDate = TraductorService.stringToDate(desde);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,7 +40,7 @@ public class AnalisisAsistenciaService {
 		String hasta = parametros[7];
 		Date hastaDate = null;
 		try {
-			hastaDate = TraductorServicio.stringToDate(hasta);
+			hastaDate = TraductorService.stringToDate(hasta);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -132,8 +132,8 @@ public class AnalisisAsistenciaService {
 			mementoAnalisis = asistencia + "," + anio + "," + division + ","
 					+ alumno.getDni() + "," + alumno.getNombre() + ","
 					+ alumno.getApellido() + ","
-					+ TraductorServicio.DateToString(desde) + ","
-					+ TraductorServicio.DateToString(hasta);
+					+ TraductorService.DateToString(desde) + ","
+					+ TraductorService.DateToString(hasta);
 
 			listaAnalisis
 					.add(analizarIntervaloAsistenciaAlumno(mementoAnalisis));

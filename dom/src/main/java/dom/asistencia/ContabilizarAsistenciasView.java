@@ -54,12 +54,12 @@ public class ContabilizarAsistenciasView extends AbstractViewModel {
 		setAnio(Integer.parseInt(parametros[1]));
 		setDivision(parametros[2]);
 		try {
-			setDesde(TraductorServicio.stringToDate(parametros[3]));
+			setDesde(TraductorService.stringToDate(parametros[3]));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		try {
-			setHasta(TraductorServicio.stringToDate(parametros[4]));
+			setHasta(TraductorService.stringToDate(parametros[4]));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

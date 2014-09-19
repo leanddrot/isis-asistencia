@@ -41,8 +41,8 @@ public class ContabilizarAsistenciasService {
 
 		String mementoString = esquema.getDescripcion() + "," + curso.getAnio()
 				+ "," + curso.getDivision() + ","
-				+ TraductorServicio.DateToString(desde) + ","
-				+ TraductorServicio.DateToString(hasta) + ",-1";
+				+ TraductorService.DateToString(desde) + ","
+				+ TraductorService.DateToString(hasta) + ",-1";
 
 		return container.newViewModelInstance(
 				ContabilizarAsistenciasView.class, mementoString);

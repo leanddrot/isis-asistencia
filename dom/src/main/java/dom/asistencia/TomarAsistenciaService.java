@@ -58,7 +58,7 @@ public class TomarAsistenciaService {
     	//titulo, asistencia, fecha, anio, division, alumnoactivo
     	
 		String titulo = "Tomar asistencia";
-    	String fechaString = TraductorServicio.DateToString(fecha);
+    	String fechaString = TraductorService.DateToString(fecha);
 		String mementoString = 	titulo + "," 
 								+ asistencia.getDescripcion() + "," 
 								+ fechaString + "," 
